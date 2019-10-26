@@ -2,4 +2,4 @@
 
 Java client library for the Test Modeller platform.
 
-Perform and retrieve data allocations, syncronise run results, and execute jobs.
+Perform and retrieve data allocations, synchronise run results, and execute jobs.
