@@ -1,4 +1,4 @@
-# TestModeller Java
+# TestModeller.io Java
 
 Java client library for the Test Modeller platform.
 
