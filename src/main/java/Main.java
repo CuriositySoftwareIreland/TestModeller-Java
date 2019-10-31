@@ -1,12 +1,12 @@
-import com.curiosity.JobEngine.Entities.File.UploadFileResponse;
-import com.curiosity.JobEngine.Entities.Job.*;
-import com.curiosity.JobEngine.Services.ConnectionProfile;
-import com.curiosity.JobEngine.Services.File.FileService;
-import com.curiosity.JobEngine.Settings.JobSetting;
-import com.curiosity.JobEngine.Settings.JobSettingParameter;
-import com.curiosity.JobEngine.Settings.JobSettingParser;
-import com.curiosity.JobEngine.Utils.JobExecutor;
-import com.curiosity.JobEngine.Utils.UnirestHelper;
+import ie.curiositysoftware.JobEngine.Entities.File.UploadFileResponse;
+import ie.curiositysoftware.JobEngine.Entities.Job.*;
+import ie.curiositysoftware.JobEngine.Services.ConnectionProfile;
+import ie.curiositysoftware.JobEngine.Services.File.FileService;
+import ie.curiositysoftware.JobEngine.Settings.JobSetting;
+import ie.curiositysoftware.JobEngine.Settings.JobSettingParameter;
+import ie.curiositysoftware.JobEngine.Settings.JobSettingParser;
+import ie.curiositysoftware.JobEngine.Utils.JobExecutor;
+import ie.curiositysoftware.JobEngine.Utils.UnirestHelper;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
