@@ -10,7 +10,7 @@
 
 	<name>TestModeller.io Java</name>
 	<description>Java client library for the Curiosity Software product TestModeller</description>
-	<url />
+	<url>https://testmodeller.io<url/>
 
 	<organization>
 		<name>ie.curiositysoftware</name>
@@ -29,7 +29,17 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-    
+
+	<scm>
+		<url>https://github.com/CuriositySoftwareIreland/TestModeller-Java</url>
+		<connection>
+			scm:git:git://github.com/CuriositySoftwareIreland/TestModeller-Java.git
+		</connection>
+		<developerConnection>
+			scm:git:ssh://git@github.com/CuriositySoftwareIreland/TestModeller-Java.git
+		</developerConnection>
+	  <tag>1.0.13</tag>
+  </scm>
 	<developers>
 		<developer>
 			<name>James Walker</name>
