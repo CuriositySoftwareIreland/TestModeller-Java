@@ -10,7 +10,7 @@
 
 	<name>TestModeller.io Java</name>
 	<description>Java client library for the Curiosity Software product TestModeller</description>
-	<url>https://testmodeller.io<url/>
+	<url>https://testmodeller.io</url>
 
 	<organization>
 		<name>ie.curiositysoftware</name>
