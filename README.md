@@ -25,7 +25,8 @@ Test data allocation works in three phrases.
 
 ### TestNG Frameworks
 With TestNG you can tag each test with a ‘@DataAllocation’ annotation.
-```
+
+```java
 @DataAllocation(poolName = "pool", suiteName = "suite", groups = {"testname"})
 Public void testDefinition()
 {
@@ -43,7 +44,8 @@ Here you can specify the data allocation to connect the test with. This correspo
 These three parameters must match the data values specified for each matching test case specified within the appropriate allocation pool within the portal.
 
 Within the test case you can retrieve the results using the 'dataAllocationEngine.GetDataResult’ function. Here you can specify the pool, suite name, and test name to retrieve the results for. Again, this must match the specifications given in the associated allocation pool within the portal. The DataAllocationResult class contains the functions to retrieve results by the column names, and column indexes as specified in the initial test criteria.
-```
+
+```java
 DataAllocationResult allocResult= dataAllocationEngine.GetDataResult("pool", "suite", "test name");
 ```
 
@@ -53,7 +55,7 @@ It is more efficient to perform these operations in bulk which is why they are c
 
 This implementation can be transposed to other testing frameworks (e.g. Nunit, Junit, etc) by replacing the appropriate keywords (@BeforeSuite, and @Test) with their corresponding values. The purpose of this java library is to provide a set of out-the-box methods for enabling you to call the data allocation API within your framework seamlessly.
 
-```
+```java
 @BeforeSuite(alwaysRun = true)
 public void allocateData(ITestContext testContext)
 {
