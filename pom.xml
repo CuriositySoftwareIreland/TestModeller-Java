@@ -5,7 +5,7 @@
 
     <groupId>ie.curiositysoftware</groupId>
     <artifactId>testmodeller</artifactId>
-    <version>1.0.15</version>
+    <version>1.0.16</version>
     <packaging>jar</packaging>
 
 	<name>TestModeller.io Java</name>
@@ -38,7 +38,7 @@
 		<developerConnection>
 			scm:git:ssh://git@github.com/CuriositySoftwareIreland/TestModeller-Java.git
 		</developerConnection>
-	  <tag>1.0.15</tag>
+	  <tag>1.0.16</tag>
   </scm>
 	<developers>
 		<developer>
