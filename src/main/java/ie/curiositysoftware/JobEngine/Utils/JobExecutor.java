@@ -12,30 +12,52 @@ import java.io.File;
 import java.io.IOException;
 
 public class JobExecutor {
-    private String ErrorMessage;
 
+    private String errorMessage = "";
+    private ConnectionProfile connectionProfile;
+    private JobSubmissionService jobSubmissionService;
+
+    @Deprecated
     public JobExecutor()
     {
-        ErrorMessage = "";
+    }
+
+    public JobExecutor(ConnectionProfile connectionProfile)
+    {
+        setConnectionProfile(connectionProfile);
     }
 
     public String getErrorMessage() {
-        return ErrorMessage;
+        return errorMessage;
     }
 
     public void setErrorMessage(String errorMessage) {
-        ErrorMessage = errorMessage;
+        this.errorMessage = errorMessage;
     }
 
+    public void setConnectionProfile(ConnectionProfile profile){
+        this.connectionProfile = profile;
+        this.jobSubmissionService = new JobSubmissionService(profile);
+    }
+
+    @Deprecated
     public Boolean ExecuteJob(JobEntity job, ConnectionProfile p, String outputLocation, Long maxTime) throws IOException {
-        JobSubmissionService jobSubmission = new JobSubmissionService(p);
-        JobEntity r = jobSubmission.AddJob(job);
-        if (r == null) {
-            ErrorMessage = "Error submiting job - " + jobSubmission.GetErrorMessage();
+        setConnectionProfile(p);
+        return ExecuteJob(job, outputLocation, maxTime);
+    }
+
+    public Boolean ExecuteJob(JobEntity job, String outputLocation, Long maxTime) throws IOException {
+        JobEntity r = jobSubmissionService.AddJob(job);
+        if (r == null || r.getId() == null) {
+            errorMessage = "Error submiting job - " + jobSubmissionService.GetErrorMessage();
 
             return false;
         }
 
+        return WaitForJob(r.getId(), outputLocation, maxTime);
+    }
+
+    public Boolean WaitForJob(Long jobId, String outputLocation, Long maxTime) throws IOException {
         // 5 - Wait for job to complete
         long startTime = System.currentTimeMillis();
         while (true)
@@ -43,27 +65,27 @@ public class JobExecutor {
             long ellapsed = System.currentTimeMillis() - startTime;
 
             if (ellapsed > maxTime) {
-                ErrorMessage = "Maximum time elapsed";
+                errorMessage = "Maximum time elapsed";
 
                 return false;
             }
 
-            JobEntity curJobStatus = jobSubmission.GetJob(r.getId());
+            JobEntity curJobStatus = jobSubmissionService.GetJob(jobId);
             if (curJobStatus == null)
                 break;
 
             if (curJobStatus.getJobState().equals(JobState.Complete))
             {
-                ErrorMessage = "Job complete";
+                errorMessage = "Job complete";
 
                 break;
             } else if (curJobStatus.getJobState().equals(JobState.Error)) {
-                ErrorMessage = "Error executing job " + curJobStatus.getProgressMessage();
+                errorMessage = "Error executing job " + curJobStatus.getProgressMessage();
 
                 return false;
             }
 
-            ErrorMessage = "Executing job - State: " + curJobStatus.getJobState() + " - Message: " + curJobStatus.getProgressMessage();
+            errorMessage = "Executing job - State: " + curJobStatus.getJobState() + " - Message: " + curJobStatus.getProgressMessage();
 
             try {
                 Thread.sleep(1000);
@@ -73,10 +95,10 @@ public class JobExecutor {
         }
 
         // 6 - Retrieve result
-        JobResultService jobResult = new JobResultService(p);
-        JobResultEntity jobResultEntity = jobResult.GetResult(r.getId());
+        JobResultService jobResult = new JobResultService(connectionProfile);
+        JobResultEntity jobResultEntity = jobResult.GetResult(jobId);
         if (jobResultEntity == null) {
-            ErrorMessage = "Error retrieving result";
+            errorMessage = "Error retrieving result";
 
             return false;
         }
