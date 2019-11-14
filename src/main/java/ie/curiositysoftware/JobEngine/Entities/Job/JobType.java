@@ -5,5 +5,6 @@ public enum JobType {
     DataGenerationJob,
     AutomationGenerationJob,
     ExportTestSuiteJob,
-    VIPAutoExecutionJob
+    VIPAutoExecutionJob,
+    RunResultAnalysisAndTestGenerationJob
 }
