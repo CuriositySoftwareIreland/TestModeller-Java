@@ -1,12 +1,13 @@
-import ie.curiositysoftware.JobEngine.Entities.File.UploadFileResponse;
-import ie.curiositysoftware.JobEngine.Entities.Job.*;
-import ie.curiositysoftware.JobEngine.Services.ConnectionProfile;
-import ie.curiositysoftware.JobEngine.Services.File.FileService;
-import ie.curiositysoftware.JobEngine.Settings.JobSetting;
-import ie.curiositysoftware.JobEngine.Settings.JobSettingParameter;
-import ie.curiositysoftware.JobEngine.Settings.JobSettingParser;
-import ie.curiositysoftware.JobEngine.Utils.JobExecutor;
-import ie.curiositysoftware.JobEngine.Utils.UnirestHelper;
+import ie.curiositysoftware.jobengine.dto.file.UploadFileResponse;
+import ie.curiositysoftware.jobengine.dto.job.*;
+import ie.curiositysoftware.jobengine.dto.job.settings.VIPAutomationExecutionJobSettings;
+import ie.curiositysoftware.jobengine.services.ConnectionProfile;
+import ie.curiositysoftware.jobengine.services.file.FileService;
+import ie.curiositysoftware.jobengine.settings.JobSetting;
+import ie.curiositysoftware.jobengine.settings.JobSettingParameter;
+import ie.curiositysoftware.jobengine.settings.JobSettingParser;
+import ie.curiositysoftware.jobengine.utils.JobExecutor;
+import ie.curiositysoftware.jobengine.utils.UnirestHelper;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,11 +17,11 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-        UnirestHelper.InitUnirestMapper();
+        UnirestHelper.initUnirestMapper();
 
         // 1 - Parse Configuration File
         String xmlPath = args[0];
-        JobSetting result = new JobSettingParser().ParseSettings(xmlPath);
+        JobSetting result = new JobSettingParser().parseSettings(xmlPath);
 
         if (result == null) {
             System.out.println("Error parsing configuration");
@@ -34,9 +35,9 @@ public class Main {
         p.setAPIUrl(result.getUrlField());
 
         // 3 - Construct job entity
-        JobEntity job = new JobEntity();
+        Job job = new Job();
         job.setJobType(JobType.VIPAutoExecutionJob);
-        job.setVipAutomationJobSettings(new VIPAutomationExecutionJobEntity());
+        job.setVipAutomationJobSettings(new VIPAutomationExecutionJobSettings());
         job.getVipAutomationJobSettings().setMachineKey(result.getMachinekeyField());
         job.getVipAutomationJobSettings().setServerProfileId(result.getSeverprofileidField());
         job.getVipAutomationJobSettings().setAutomationType(result.getAutomationtypeField());
@@ -59,9 +60,9 @@ public class Main {
             {
                 // Upload it
                 FileService fs = new FileService(p);
-                UploadFileResponse fileResponse = fs.AddFile(new File(curParam.getValueField()));
+                UploadFileResponse fileResponse = fs.addFile(new File(curParam.getValueField()));
                 if (fileResponse == null) {
-                    System.out.println("Error " + fs.GetErrorMessage());
+                    System.out.println("Error " + fs.getErrorMessage());
                 } else {
                     System.out.println("File " + fileResponse.getDownloadUri());
                 }
@@ -83,8 +84,8 @@ public class Main {
         }
 
         // 4 - Submit job
-        JobExecutor jobExecutor = new JobExecutor();
-        if (!jobExecutor.ExecuteJob(job, p, args[1], result.getMaximumtimeField())) {
+        JobExecutor jobExecutor = new JobExecutor(p);
+        if (!jobExecutor.executeJob(job, args[1], result.getMaximumtimeField())) {
             System.out.println(jobExecutor.getErrorMessage());
 
             return;
