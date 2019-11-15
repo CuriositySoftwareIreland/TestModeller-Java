@@ -7,7 +7,7 @@ import ie.curiositysoftware.jobengine.settings.JobSetting;
 import ie.curiositysoftware.jobengine.settings.JobSettingParameter;
 import ie.curiositysoftware.jobengine.settings.JobSettingParser;
 import ie.curiositysoftware.jobengine.utils.JobExecutor;
-import ie.curiositysoftware.jobengine.utils.UnirestHelper;
+import ie.curiositysoftware.utils.UnirestHelper;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

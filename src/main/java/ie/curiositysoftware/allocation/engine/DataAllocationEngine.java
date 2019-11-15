@@ -6,7 +6,7 @@ import ie.curiositysoftware.jobengine.dto.job.Job;
 import ie.curiositysoftware.jobengine.dto.job.JobState;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.jobengine.services.job.JobSubmissionService;
-import ie.curiositysoftware.jobengine.utils.UnirestHelper;
+import ie.curiositysoftware.utils.UnirestHelper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 
