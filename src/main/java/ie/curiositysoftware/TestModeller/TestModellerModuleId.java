@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.ANNOTATION_TYPE)
+@Target(ElementType.TYPE)
 public @interface TestModellerModuleId
 {
     String id() default "";
