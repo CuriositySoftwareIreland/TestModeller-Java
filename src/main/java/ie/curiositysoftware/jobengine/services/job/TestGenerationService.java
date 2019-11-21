@@ -31,9 +31,11 @@ public class TestGenerationService extends RestService {
         job.getGenerationJobSettings().setConfigurationId(profileId);
 
         Job saved = jobService.addJob(job);
-        if(saved != null)
-            return saved.getId();
-        else
-            return null;
+        return saved == null ? null : saved.getId();
+    }
+
+    @Override
+    public String getErrorMessage() {
+        return jobService.getErrorMessage();
     }
 }

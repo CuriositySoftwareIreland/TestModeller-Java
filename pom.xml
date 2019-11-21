@@ -74,6 +74,16 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.9.10.1</version>
         </dependency>
+        <dependency>
+            <groupId>net.lingala.zip4j</groupId>
+            <artifactId>zip4j</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>joor-java-8</artifactId>
+            <version>0.9.12</version>
+        </dependency>
 
     </dependencies>
     <build>

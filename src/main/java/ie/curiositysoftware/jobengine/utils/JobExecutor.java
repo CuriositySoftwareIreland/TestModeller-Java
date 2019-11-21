@@ -14,12 +14,12 @@ import java.io.IOException;
 public class JobExecutor {
 
     private String errorMessage = "";
-    private ConnectionProfile connectionProfile;
     private JobSubmissionService jobSubmissionService;
+    private JobResultService jobResultService;
 
     public JobExecutor(ConnectionProfile profile) {
-        this.connectionProfile = profile;
         this.jobSubmissionService = new JobSubmissionService(profile);
+        this.jobResultService = new JobResultService(profile);
     }
 
     public String getErrorMessage() {
@@ -86,18 +86,17 @@ public class JobExecutor {
             }
         }
 
-        // 6 - Retrieve result
-        JobResultService jobResult = new JobResultService(connectionProfile);
-        JobResult jobResultEntity = jobResult.getResult(jobId);
-        if (jobResultEntity == null) {
-            errorMessage = "Error retrieving result";
+        if(outputLocation != null) {
+            // 6 - Retrieve result
+            JobResult jobResult = jobResultService.getResult(jobId);
+            if (jobResult == null) {
+                errorMessage = "Error retrieving result";
+                return false;
+            }
 
-            return false;
+            // 7 - If result file download it to location
+            FileUtils.writeByteArrayToFile(new File(outputLocation), jobResult.getResultObject());
         }
-
-        // 7 - If result file download it to location
-        if(outputLocation != null)
-            FileUtils.writeByteArrayToFile(new File(outputLocation), jobResultEntity.getResultObject());
 
         return true;
     }
