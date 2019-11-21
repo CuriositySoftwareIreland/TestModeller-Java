@@ -1,4 +1,4 @@
-package ie.curiositysoftware.jobengine.services;
+package ie.curiositysoftware.utils;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.exceptions.UnirestException;
