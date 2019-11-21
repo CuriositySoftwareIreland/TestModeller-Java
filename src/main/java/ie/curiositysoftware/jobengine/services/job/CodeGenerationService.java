@@ -5,7 +5,7 @@ import ie.curiositysoftware.jobengine.dto.job.Job;
 import ie.curiositysoftware.jobengine.dto.job.JobType;
 import ie.curiositysoftware.jobengine.dto.job.settings.VIPAutomationExecutionJobSettings;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
-import ie.curiositysoftware.jobengine.services.RestService;
+import ie.curiositysoftware.utils.RestService;
 
 public class CodeGenerationService extends RestService {
 
