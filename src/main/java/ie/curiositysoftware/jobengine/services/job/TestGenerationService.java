@@ -2,6 +2,7 @@ package ie.curiositysoftware.jobengine.services.job;
 
 import ie.curiositysoftware.jobengine.dto.job.Job;
 import ie.curiositysoftware.jobengine.dto.job.JobType;
+import ie.curiositysoftware.jobengine.dto.job.settings.RunResultAnalysisJobSettings;
 import ie.curiositysoftware.jobengine.dto.job.settings.TestGenerationJobSettings;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.utils.RestService;
@@ -15,18 +16,29 @@ public class TestGenerationService extends RestService {
         jobService = new JobSubmissionService(connectionProfile);
     }
 
-    public Long startAnalysisAndGenerationJob(Long profileId) {
-        return startJob(profileId, JobType.RunResultAnalysisAndTestGenerationJob);
+    public Long startAnalysisAndGenerationJob(Long profileId){
+        return startAnalysisAndGenerationJob(profileId, true);
+    }
+
+    public Long startAnalysisAndGenerationJob(Long profileId, Boolean includeOldTests){
+        return startAnalysisAndGenerationJob(profileId, includeOldTests, null);
+    }
+
+    public Long startAnalysisAndGenerationJob(Long profileId, Boolean includeOldTests, String newProfileName) {
+        Job job = new Job();
+        job.setJobType(JobType.RunResultAnalysisAndTestGenerationJob);
+        job.setRunResultAnalysisJobSettings(new RunResultAnalysisJobSettings());
+        job.getRunResultAnalysisJobSettings().setProfileId(profileId);
+        job.getRunResultAnalysisJobSettings().setIncludeOldTests(includeOldTests);
+        job.getRunResultAnalysisJobSettings().setNewProfileName(newProfileName);
+
+        Job saved = jobService.addJob(job);
+        return saved == null ? null : saved.getId();
     }
 
     public Long startGenerationJob(Long profileId) {
-        return startJob(profileId, JobType.TestGenerationJob);
-    }
-
-    private Long startJob(Long profileId, JobType type) {
-
         Job job = new Job();
-        job.setJobType(type);
+        job.setJobType(JobType.TestGenerationJob);
         job.setGenerationJobSettings(new TestGenerationJobSettings());
         job.getGenerationJobSettings().setConfigurationId(profileId);
 

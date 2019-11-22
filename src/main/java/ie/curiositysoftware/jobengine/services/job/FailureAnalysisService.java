@@ -34,6 +34,7 @@ public class FailureAnalysisService extends RestService {
     private Long jobTimeout;
     private String serverName;
     private Long templateId;
+    private Boolean includeOldTests;
 
     private List<Class<?>> newTests;
 
@@ -44,11 +45,12 @@ public class FailureAnalysisService extends RestService {
         jobExecutor = new JobExecutor(profile);
     }
 
-    public FailureAnalysisService(ConnectionProfile profile, Long jobTimeout, String serverName, Long templateId) {
+    public FailureAnalysisService(ConnectionProfile profile, Long jobTimeout, String serverName, Long templateId, Boolean includeOldTests) {
         this(profile);
         this.jobTimeout = jobTimeout;
         this.serverName = serverName;
         this.templateId = templateId;
+        this.includeOldTests = includeOldTests;
     }
 
     public Long getJobTimeout() {
@@ -75,6 +77,14 @@ public class FailureAnalysisService extends RestService {
         this.templateId = templateId;
     }
 
+    public Boolean getIncludeOldTests() {
+        return includeOldTests;
+    }
+
+    public void setIncludeOldTests(Boolean includeOldTests) {
+        this.includeOldTests = includeOldTests;
+    }
+
     public Boolean analyseFailures(Long profileId) {
         if(getServerName() == null || getServerName().isEmpty()) {
             this.errorMessage = "No server name provided";
@@ -87,7 +97,7 @@ public class FailureAnalysisService extends RestService {
         }
 
         try {
-            Long testGenJob = testGenerationService.startAnalysisAndGenerationJob(profileId);
+            Long testGenJob = testGenerationService.startAnalysisAndGenerationJob(profileId, getIncludeOldTests());
             if(testGenJob == null) {
                 this.errorMessage = "Test Generation failed: " + testGenerationService.getErrorMessage();
                 return false;
