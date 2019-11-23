@@ -8,7 +8,7 @@ import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 public class RestService {
 
     protected ConnectionProfile connectionProfile;
-    private String errorMessage = "";
+    protected String errorMessage = "";
 
     public RestService(ConnectionProfile connectionProfile) {
         this.connectionProfile = connectionProfile;

@@ -41,6 +41,8 @@ public class Job {
 
     private VIPAutomationExecutionJobSettings vipAutomationJobSettings;
 
+    private RunResultAnalysisJobSettings runResultAnalysisJobSettings;
+
     public Job()
     {
 
@@ -180,5 +182,13 @@ public class Job {
 
     public TestGenerationJobSettings getGenerationJobSettings() {
         return generationJobSettings;
+    }
+
+    public RunResultAnalysisJobSettings getRunResultAnalysisJobSettings() {
+        return runResultAnalysisJobSettings;
+    }
+
+    public void setRunResultAnalysisJobSettings(RunResultAnalysisJobSettings runResultAnalysisJobSettings) {
+        this.runResultAnalysisJobSettings = runResultAnalysisJobSettings;
     }
 }
