@@ -1,5 +1,7 @@
 package ie.curiositysoftware.jobengine.dto.job.settings;
 
+import ie.curiositysoftware.jobengine.dto.job.TestCoverageEnum;
+
 public class RunResultAnalysisJobSettings {
 
     private Long id;
@@ -8,6 +10,7 @@ public class RunResultAnalysisJobSettings {
     private Long modelVersionId;
     private String newProfileName;
     private Boolean includeOldTests;
+    private TestCoverageEnum targetCoverage;
 
     public Long getId() {
         return id;
@@ -55,5 +58,13 @@ public class RunResultAnalysisJobSettings {
 
     public void setIncludeOldTests(Boolean includeOldTests) {
         this.includeOldTests = includeOldTests;
+    }
+
+    public TestCoverageEnum getTargetCoverage() {
+        return targetCoverage;
+    }
+
+    public void setTargetCoverage(TestCoverageEnum targetCoverage) {
+        this.targetCoverage = targetCoverage;
     }
 }

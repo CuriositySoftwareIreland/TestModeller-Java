@@ -2,6 +2,7 @@ package ie.curiositysoftware.jobengine.services.job;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ie.curiositysoftware.jobengine.dto.job.RunResultAnalysisJobResult;
+import ie.curiositysoftware.jobengine.dto.job.TestCoverageEnum;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.jobengine.utils.JobExecutor;
 import ie.curiositysoftware.utils.RestService;
@@ -31,10 +32,11 @@ public class FailureAnalysisService extends RestService {
     private final JobExecutor jobExecutor;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    private Long jobTimeout;
+    private Long jobTimeout = 60000L;
     private String serverName;
-    private Long templateId;
-    private Boolean includeOldTests;
+    private Long templateId = CodeGenerationService.DEFAULT_JAVA_TEMPLATE_ID;
+    private Boolean includeOldTests = true;
+    private TestCoverageEnum targetCoverage = TestCoverageEnum.Exhaustive;
 
     private List<Class<?>> newTests;
 
@@ -45,12 +47,14 @@ public class FailureAnalysisService extends RestService {
         jobExecutor = new JobExecutor(profile);
     }
 
-    public FailureAnalysisService(ConnectionProfile profile, Long jobTimeout, String serverName, Long templateId, Boolean includeOldTests) {
+    public FailureAnalysisService(ConnectionProfile profile, Long jobTimeout, String serverName, Long templateId,
+                                  Boolean includeOldTests, TestCoverageEnum targetCoverage) {
         this(profile);
         this.jobTimeout = jobTimeout;
         this.serverName = serverName;
         this.templateId = templateId;
         this.includeOldTests = includeOldTests;
+        this.targetCoverage = targetCoverage;
     }
 
     public Long getJobTimeout() {
@@ -81,6 +85,14 @@ public class FailureAnalysisService extends RestService {
         return includeOldTests;
     }
 
+    public TestCoverageEnum getTargetCoverage() {
+        return targetCoverage;
+    }
+
+    public void setTargetCoverage(TestCoverageEnum targetCoverage) {
+        this.targetCoverage = targetCoverage;
+    }
+
     public void setIncludeOldTests(Boolean includeOldTests) {
         this.includeOldTests = includeOldTests;
     }
@@ -97,7 +109,7 @@ public class FailureAnalysisService extends RestService {
         }
 
         try {
-            Long testGenJob = testGenerationService.startAnalysisAndGenerationJob(profileId, getIncludeOldTests());
+            Long testGenJob = testGenerationService.startAnalysisAndGenerationJob(profileId, getIncludeOldTests(), null, getTargetCoverage());
             if(testGenJob == null) {
                 this.errorMessage = "Test Generation failed: " + testGenerationService.getErrorMessage();
                 return false;
