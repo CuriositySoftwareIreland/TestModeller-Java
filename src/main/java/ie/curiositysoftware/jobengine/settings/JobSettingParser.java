@@ -47,7 +47,9 @@ public class JobSettingParser {
         jobSetting.setSeverprofileidField(Long.parseLong(serverProfileId.item(0).getTextContent()));
 
         NodeList testsuiteId = doc.getElementsByTagName("testsuiteid");
-        jobSetting.setTestsuiteidField(Long.parseLong(testsuiteId.item(0).getTextContent()));
+        if (testsuiteId != null && testsuiteId.item(0) != null) {
+            jobSetting.setTestsuiteidField(Long.parseLong(testsuiteId.item(0).getTextContent()));
+        }
 
         // automation type
         NodeList automationType = doc.getElementsByTagName("automationtype");
