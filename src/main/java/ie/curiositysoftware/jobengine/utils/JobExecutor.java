@@ -58,6 +58,7 @@ public class JobExecutor {
 
             if (ellapsed > maxTime) {
                 errorMessage = "Maximum time elapsed";
+                System.out.println(errorMessage);
 
                 return false;
             }
@@ -69,15 +70,18 @@ public class JobExecutor {
             if (curJobStatus.getJobState().equals(JobState.Complete))
             {
                 errorMessage = "Job complete";
+                System.out.println(errorMessage);
 
                 break;
             } else if (curJobStatus.getJobState().equals(JobState.Error)) {
                 errorMessage = "Error executing job " + curJobStatus.getProgressMessage();
+                System.out.println(errorMessage);
 
                 return false;
             }
 
             errorMessage = "Executing job - State: " + curJobStatus.getJobState() + " - Message: " + curJobStatus.getProgressMessage();
+            System.out.println(errorMessage);
 
             try {
                 Thread.sleep(1000);
@@ -91,6 +95,8 @@ public class JobExecutor {
             JobResult jobResult = jobResultService.getResult(jobId);
             if (jobResult == null) {
                 errorMessage = "Error retrieving result";
+                System.out.println(errorMessage);
+
                 return false;
             }
 
