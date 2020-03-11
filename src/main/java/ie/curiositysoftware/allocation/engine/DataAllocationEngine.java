@@ -201,7 +201,7 @@ public class DataAllocationEngine {
         // 4) Run Allocation and retrieve result
         ArrayList<AllocationType> allocationTypes = new ArrayList<AllocationType>();
         allocationTypes.add(new AllocationType(allocationPool.getName(), allocatedTest.getSuiteName(), allocatedTest.getName()));
-        performAllocation(serverName, allocationPool.getName(), allocationTypes, );
+        performAllocation(serverName, allocationPool.getName(), allocationTypes, maxTime);
 
         DataAllocationResult res = getDataResult(allocationPool.getName(), allocatedTest.getSuiteName(), allocatedTest.getName());
 
