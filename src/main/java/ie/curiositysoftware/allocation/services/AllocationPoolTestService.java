@@ -41,6 +41,31 @@ public class AllocationPoolTestService {
         }
     }
 
+    public Boolean DeleteAllocationPoolTest(Long id)
+    {
+        try {
+            HttpResponse deleteResponse = Unirest.delete(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/allocated-test/" + id)
+                    .header("accept", "application/json")
+                    .header("Content-Type", "application/json")
+                    .asJson();
+
+            if (deleteResponse.getStatus() == 200) {
+                return true;
+            } else {
+                m_ErrorMessage = deleteResponse.getStatus() + " - " +  deleteResponse.getStatusText();
+
+                return false;
+            }
+        } catch (Exception e) {
+            m_ErrorMessage = e.getMessage();
+
+            e.printStackTrace();
+
+            return false;
+        }
+
+    }
+
     public String getErrorMessage() {
         return m_ErrorMessage;
     }

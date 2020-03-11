@@ -128,11 +128,11 @@ public class DataAllocationEngine {
         }
     }
 
-    public DataAllocationResult getDataResultForCriteria(String serverName, String catalogueName, String criteriaName, Integer howMany, ArrayList<DataAllocationCriteria> criteriaParameters) {
-        return getDataResultForCriteria(serverName, catalogueName, criteriaName, howMany, criteriaParameters, 10000000L);
+    public DataAllocationResult getDataResultForCriteriaInPool(String serverName, String poolName, String catalogueName, String criteriaName, Integer howMany, ArrayList<DataAllocationCriteria> criteriaParameters) {
+        return getDataResultForCriteriaInPool(serverName, poolName, catalogueName, criteriaName, howMany, criteriaParameters, 10000000L);
     }
 
-    public DataAllocationResult getDataResultForCriteria(String serverName, String catalogueName, String criteriaName, Integer howMany, ArrayList<DataAllocationCriteria> criteriaParameters, Long maxTime)
+    public DataAllocationResult getDataResultForCriteriaInPool(String serverName, String poolName, String catalogueName, String criteriaName, Integer howMany, ArrayList<DataAllocationCriteria> criteriaParameters, Long maxTime)
     {
         // 1) Find criteria of name in catalogue
         DataCriteriaService dataCriteriaService = new DataCriteriaService(m_ConnectionProfile);
@@ -140,22 +140,18 @@ public class DataAllocationEngine {
         if (criteria == null) {
             m_ErrorMessage = dataCriteriaService.getErrorMessage();
 
-            System.out.println("Error " + m_ErrorMessage);
+            System.out.println("Error GetTestCriteria() " + m_ErrorMessage);
 
             return null;
         }
 
-        // 2) Create a new allocation pool
-        AllocationPool allocationPool = new AllocationPool();
-        allocationPool.setCatalogueId(criteria.getCatalogueId());
-        allocationPool.setName("Temporary pool " + java.util.UUID.randomUUID().toString());
-
+        // 2) Find the existing allocation pool
         AllocationPoolService allocationPoolService = new AllocationPoolService(m_ConnectionProfile);
-        allocationPool = allocationPoolService.CreateAllocationPool(allocationPool);
+        AllocationPool allocationPool = allocationPoolService.GetAllocationPool(poolName);
         if (allocationPool == null) {
-            m_ErrorMessage = dataCriteriaService.getErrorMessage();
+            m_ErrorMessage = allocationPoolService.getErrorMessage();
 
-            System.out.println("Error " + m_ErrorMessage);
+            System.out.println("Error GetAllocationPool() - " + m_ErrorMessage);
 
             return null;
         }
@@ -166,7 +162,6 @@ public class DataAllocationEngine {
         allocatedTest.setName("Test " + java.util.UUID.randomUUID().toString());
         allocatedTest.setPoolId(allocationPool.getId());
         allocatedTest.setSuiteName("DataAllocationFramework");
-        allocatedTest.setTableName("DataAllocationFramework");
         allocatedTest.setTestCriteriaIdCatalogueId(allocationPool.getCatalogueId());
         allocatedTest.setTestCriteriaId(criteria.getId());
         allocatedTest.setUniqueFind(false);
@@ -192,7 +187,97 @@ public class DataAllocationEngine {
         if (allocatedTest == null) {
             m_ErrorMessage = dataCriteriaService.getErrorMessage();
 
-            System.out.println("Error " + m_ErrorMessage);
+            System.out.println("Error CreateAllocatedTest() " + m_ErrorMessage);
+
+            return null;
+        }
+
+
+        // 4) Run Allocation and retrieve result
+        ArrayList<AllocationType> allocationTypes = new ArrayList<AllocationType>();
+        allocationTypes.add(new AllocationType(allocationPool.getName(), allocatedTest.getSuiteName(), allocatedTest.getName()));
+        performAllocation(serverName, allocationPool.getName(), allocationTypes, maxTime);
+
+        DataAllocationResult res = getDataResult(allocationPool.getName(), allocatedTest.getSuiteName(), allocatedTest.getName());
+
+        // 5) Delete allocatedTest
+        Boolean deleted = allocationPoolTestService.DeleteAllocationPoolTest(allocatedTest.getId());
+        if (!deleted) {
+            m_ErrorMessage = allocationPoolTestService.getErrorMessage();
+
+            System.out.println("Error DeleteAllocationPoolTest() " + m_ErrorMessage);
+
+            return res;
+
+        }
+
+        return res;
+    }
+
+    public DataAllocationResult getDataResultForCriteria(String serverName, String catalogueName, String criteriaName, Integer howMany, ArrayList<DataAllocationCriteria> criteriaParameters) {
+        return getDataResultForCriteria(serverName, catalogueName, criteriaName, howMany, criteriaParameters, 10000000L);
+    }
+
+    public DataAllocationResult getDataResultForCriteria(String serverName, String catalogueName, String criteriaName, Integer howMany, ArrayList<DataAllocationCriteria> criteriaParameters, Long maxTime)
+    {
+        // 1) Find criteria of name in catalogue
+        DataCriteriaService dataCriteriaService = new DataCriteriaService(m_ConnectionProfile);
+        DataCatalogueTestCriteria criteria = dataCriteriaService.GetTestCriteria(catalogueName, criteriaName);
+        if (criteria == null) {
+            m_ErrorMessage = dataCriteriaService.getErrorMessage();
+
+            System.out.println("Error GetTestCriteria() " + m_ErrorMessage);
+
+            return null;
+        }
+
+        // 2) Create a new allocation pool
+        AllocationPool allocationPool = new AllocationPool();
+        allocationPool.setCatalogueId(criteria.getCatalogueId());
+        allocationPool.setName("Temporary pool " + java.util.UUID.randomUUID().toString());
+
+        AllocationPoolService allocationPoolService = new AllocationPoolService(m_ConnectionProfile);
+        allocationPool = allocationPoolService.CreateAllocationPool(allocationPool);
+        if (allocationPool == null) {
+            m_ErrorMessage = dataCriteriaService.getErrorMessage();
+
+            System.out.println("Error CreateAllocationPool() " + m_ErrorMessage);
+
+            return null;
+        }
+
+        // 3) Create a new test inside pool
+        AllocatedTest allocatedTest = new AllocatedTest();
+        allocatedTest.setHowMany(howMany);
+        allocatedTest.setName("Test " + java.util.UUID.randomUUID().toString());
+        allocatedTest.setPoolId(allocationPool.getId());
+        allocatedTest.setSuiteName("DataAllocationFramework");
+        allocatedTest.setTestCriteriaIdCatalogueId(allocationPool.getCatalogueId());
+        allocatedTest.setTestCriteriaId(criteria.getId());
+        allocatedTest.setUniqueFind(false);
+
+        HashMap<String, DataCatalogueModellerParameter> criteriaParamHash = criteria.getModellerParameterHash();
+
+        List<AllocatedTestParameter> params = new ArrayList<AllocatedTestParameter>();
+        for (DataAllocationCriteria allocationCriteria : criteriaParameters) {
+            AllocatedTestParameter param = new AllocatedTestParameter();
+
+            if (criteriaParamHash.containsKey(allocationCriteria.getParameterName())) {
+                param.setCriteriaParameterId(criteriaParamHash.get(allocationCriteria.getParameterName()).getId());
+                param.setValue(allocationCriteria.getParameterValue());
+                param.setCriteriaParameterName(allocationCriteria.getParameterName());
+
+                params.add(param);
+            }
+        }
+        allocatedTest.setParameters(params);
+
+        AllocationPoolTestService allocationPoolTestService = new AllocationPoolTestService(m_ConnectionProfile);
+        allocatedTest = allocationPoolTestService.CreateAllocatedTest(allocatedTest, allocationPool.getId());
+        if (allocatedTest == null) {
+            m_ErrorMessage = dataCriteriaService.getErrorMessage();
+
+            System.out.println("Error CreateAllocatedTest() " + m_ErrorMessage);
 
             return null;
         }
@@ -210,7 +295,7 @@ public class DataAllocationEngine {
         if (!deleted) {
             m_ErrorMessage = allocationPoolService.getErrorMessage();
 
-            System.out.println("Error deleting pool " + m_ErrorMessage);
+            System.out.println("Error DeleteAllocationPool() " + m_ErrorMessage);
 
             return res;
 

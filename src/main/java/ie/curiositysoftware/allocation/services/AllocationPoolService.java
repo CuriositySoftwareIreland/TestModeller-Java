@@ -40,6 +40,30 @@ public class AllocationPoolService {
         }
     }
 
+    public AllocationPool GetAllocationPool(String name)
+    {
+        try {
+            HttpResponse<AllocationPool> getResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/name/" + name)
+                    .header("accept", "application/json")
+                    .header("Content-Type", "application/json")
+                    .asObject(AllocationPool.class);
+
+            if (getResponse.getStatus() == 200) {
+                return getResponse.getBody();
+            } else {
+                m_ErrorMessage = getResponse.getStatus() + " - " +  getResponse.getStatusText();
+
+                return null;
+            }
+        } catch (Exception e) {
+            m_ErrorMessage = e.getMessage();
+
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
     public Boolean DeleteAllocationPool(Long id)
     {
         try {
