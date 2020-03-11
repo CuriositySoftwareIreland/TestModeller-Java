@@ -1,3 +1,6 @@
+import ie.curiositysoftware.allocation.dto.DataAllocationResult;
+import ie.curiositysoftware.allocation.engine.DataAllocationCriteria;
+import ie.curiositysoftware.allocation.engine.DataAllocationEngine;
 import ie.curiositysoftware.jobengine.dto.file.UploadFileResponse;
 import ie.curiositysoftware.jobengine.dto.job.*;
 import ie.curiositysoftware.jobengine.dto.job.settings.VIPAutomationExecutionJobSettings;
@@ -90,7 +93,5 @@ public class Main {
 
             return;
         }
-
-        System.out.println("Execution complete!");
     }
 }
