@@ -1,7 +1,9 @@
 package ie.curiositysoftware.runresult.dto;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TestPathRun
 {
@@ -23,9 +25,11 @@ public class TestPathRun
 
     public int runTime;
 
+    private List<TestPathRunStep> testPathRunSteps;
+
     public TestPathRun()
     {
-
+        testPathRunSteps = new ArrayList<TestPathRunStep>();
     }
 
     public void setJobId(long jobId) {
@@ -98,5 +102,13 @@ public class TestPathRun
 
     public String getMessage() {
         return message;
+    }
+
+    public void setTestPathRunSteps(List<TestPathRunStep> testPathRunSteps) {
+        this.testPathRunSteps = testPathRunSteps;
+    }
+
+    public List<TestPathRunStep> getTestPathRunSteps() {
+        return testPathRunSteps;
     }
 }

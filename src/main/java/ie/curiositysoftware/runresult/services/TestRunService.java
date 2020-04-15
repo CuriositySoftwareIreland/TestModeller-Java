@@ -40,16 +40,16 @@ public class TestRunService {
     public boolean saveTestPathRun(TestPathRun runEntity)
     {
         try {
-            HttpResponse<JsonNode> postResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/model/version/profile/testcollection/testsuite/testpath/run")
+            HttpResponse<String> postResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/model/version/profile/testcollection/testsuite/testpath/run")
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .body(runEntity)
-                    .asJson();
+                    .asString();
 
             if (postResponse.getStatus() == 200) {
                 return true;
             } else {
-                m_ErrorMessage = postResponse.toString();
+                m_ErrorMessage = postResponse.getBody();
 
                 return false;
             }
