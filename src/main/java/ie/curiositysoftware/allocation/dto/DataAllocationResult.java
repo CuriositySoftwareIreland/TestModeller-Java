@@ -39,4 +39,15 @@ public class DataAllocationResult {
     {
         return (new ArrayList<Object>(DataRows.get(0).values())).get(index);
     }
+
+    public Object getValueByRowAndColumnIndex(int row, int index)
+    {
+        return (new ArrayList<Object>(DataRows.get(row).values())).get(index);
+    }
+
+    public Object getValueByRowAndColumnName(int row, String colName)
+    {
+        return DataRows.get(row).get(colName);
+    }
+
 }

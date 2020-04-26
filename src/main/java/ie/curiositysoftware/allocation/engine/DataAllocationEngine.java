@@ -107,10 +107,21 @@ public class DataAllocationEngine {
     public DataAllocationResult getDataResult(String pool, String suite, String testName)
     {
         try {
-            HttpResponse<DataAllocationResult> postResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/" + pool + "/suite/" + suite + "/allocated-test/" + testName + "/result/value")
+            AllocationLookupDto lookupDto = new AllocationLookupDto();
+            lookupDto.setPool(pool);
+            lookupDto.setSuite(suite);
+            lookupDto.setTestName(testName);
+
+            HttpResponse<DataAllocationResult> postResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/suite/allocated-test/result/value")
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
+                    .body(lookupDto)
                     .asObject(DataAllocationResult.class);
+
+//            HttpResponse<DataAllocationResult> postResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/" + pool + "/suite/" + suite + "/allocated-test/" + testName + "/result/value")
+//                    .header("accept", "application/json")
+//                    .header("Content-Type", "application/json")
+//                    .asObject(DataAllocationResult.class);
 
             if (postResponse.getStatus() == 200) {
                 return postResponse.getBody();
