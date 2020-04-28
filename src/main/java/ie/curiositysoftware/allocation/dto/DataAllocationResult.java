@@ -2,6 +2,7 @@ package ie.curiositysoftware.allocation.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class DataAllocationResult {
     private List<DataAllocationRow> DataRows;
@@ -50,4 +51,26 @@ public class DataAllocationResult {
         return DataRows.get(row).get(colName);
     }
 
+    @Override
+    public String toString() {
+        if (getDataRows().isEmpty()) {
+            return "No data rows present";
+        }
+
+        // Headers
+        Set<String> headers = getDataRows().get(0).keySet();
+        String returnStr = (String.join(", ", headers)) + "\r\n";
+
+        for (DataAllocationRow row : getDataRows()) {
+            ArrayList<String> values = new ArrayList<String>();
+
+            for (String header : headers) {
+                values.add(row.get(header).toString());
+            }
+
+            returnStr = returnStr + (String.join(", ", values)) + "\r\n";
+        }
+
+        return returnStr;
+    }
 }

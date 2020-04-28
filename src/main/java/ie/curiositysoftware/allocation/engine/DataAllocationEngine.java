@@ -104,7 +104,19 @@ public class DataAllocationEngine {
      * @param testName test name of data to retrieve
      * @return allocated result
      */
-    public DataAllocationResult getDataResult(String pool, String suite, String testName)
+    public DataAllocationResult getDataResult(String pool, String suite, String testName) {
+        return getDataResult(pool, suite, testName, ResultMergeMethod.NoMerge);
+    }
+
+    /**
+     * Retrieve data allocation result for test name within a test suite and data pool
+     * @param pool pool to use for resolution
+     * @param suite suite to use for resolution
+     * @param testName test name of data to retrieve
+     * @param mergeMethod method to merge test data
+     * @return allocated result
+     */
+    public DataAllocationResult getDataResult(String pool, String suite, String testName, ResultMergeMethod mergeMethod)
     {
         try {
             AllocationLookupDto lookupDto = new AllocationLookupDto();
@@ -115,6 +127,7 @@ public class DataAllocationEngine {
             HttpResponse<DataAllocationResult> postResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/suite/allocated-test/result/value")
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
+                    .queryString("mergeMethod", mergeMethod)
                     .body(lookupDto)
                     .asObject(DataAllocationResult.class);
 
@@ -124,6 +137,11 @@ public class DataAllocationEngine {
 //                    .asObject(DataAllocationResult.class);
 
             if (postResponse.getStatus() == 200) {
+                DataAllocationResult res = postResponse.getBody();
+
+                System.out.println("Found data for " + pool + " " + suite + " " + testName);
+                System.out.println(res.toString());
+
                 return postResponse.getBody();
             } else {
                 m_ErrorMessage = postResponse.getStatus() + " - " +  postResponse.getStatusText();

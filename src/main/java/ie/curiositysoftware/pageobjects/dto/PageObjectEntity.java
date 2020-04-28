@@ -20,13 +20,19 @@ public class PageObjectEntity
 
     private String dataType;
 
+    private String iframeXPath;
+
     private String dataAttributes;
+
+    private String customObjectType;
 
     private List<PageObjectParameterEntity> parameters ;
 
     private List<PageObjectHistoryEntity> pageObjectHistory;
 
     private Long parent;
+
+    private List<PageObjectTypeEntity> pageObjectTypes;
 
     public PageObjectEntity()
     {
