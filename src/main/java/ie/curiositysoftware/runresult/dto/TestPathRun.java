@@ -25,6 +25,8 @@ public class TestPathRun
 
     public int runTime;
 
+    public String runSource;
+
     private List<TestPathRunStep> testPathRunSteps;
 
     public TestPathRun()
@@ -110,5 +112,13 @@ public class TestPathRun
 
     public List<TestPathRunStep> getTestPathRunSteps() {
         return testPathRunSteps;
+    }
+
+    public void setRunSource(String runSource) {
+        this.runSource = runSource;
+    }
+
+    public String getRunSource() {
+        return runSource;
     }
 }

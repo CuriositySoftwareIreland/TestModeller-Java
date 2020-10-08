@@ -10,7 +10,7 @@ import ie.curiositysoftware.utils.RestService;
 public class CodeGenerationService extends RestService {
 
     private final JobSubmissionService jobService;
-    private static final String TEMPLATE_PROCESS_NAME = "CreateTests";
+    private static final String TEMPLATE_PROCESS_NAME = "Generate Automation";
     private static final String TEMPLATE_ID_PARAM_NAME = "parCodeGenTemplateId";
     public static final Long DEFAULT_JAVA_TEMPLATE_ID = 2L;
 

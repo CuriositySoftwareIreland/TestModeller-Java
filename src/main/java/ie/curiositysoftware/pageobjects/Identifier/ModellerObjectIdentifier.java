@@ -5,9 +5,20 @@ import ie.curiositysoftware.pageobjects.dto.PageObjectEntity;
 import ie.curiositysoftware.pageobjects.services.PageObjectService;
 
 public class ModellerObjectIdentifier {
-    private int pageObjectId;
+    private Integer pageObjectId;
+
+    private String pageObjectName;
 
     private PageObjectEntity pageObjectEntity;
+
+    public ModellerObjectIdentifier(String pageObjectName)
+    {
+        this.pageObjectName = pageObjectName;
+
+        this.pageObjectId = null;
+
+        this.pageObjectEntity = null;
+    }
 
     public ModellerObjectIdentifier(int pageObjectId)
     {
@@ -40,6 +51,12 @@ public class ModellerObjectIdentifier {
     {
         PageObjectService poService = new PageObjectService(conProfile);
 
-        this.pageObjectEntity = poService.GetPageObject(this.pageObjectId);
+        if (this.pageObjectId != null) {
+            this.pageObjectEntity = poService.GetPageObject(this.pageObjectId);
+        } else {
+            this.pageObjectEntity = poService.GetPageObject(this.pageObjectName);
+
+            this.pageObjectId = (int) this.pageObjectEntity.getId();
+        }
     }
 }

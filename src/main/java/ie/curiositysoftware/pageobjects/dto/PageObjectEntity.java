@@ -12,6 +12,8 @@ public class PageObjectEntity
 
     private String name;
 
+    private String shadowRoot;
+
     private String docName;
 
     private String docDescription;
@@ -33,6 +35,38 @@ public class PageObjectEntity
     private Long parent;
 
     private List<PageObjectTypeEntity> pageObjectTypes;
+
+    public void setShadowRoot(String shadowRoot) {
+        this.shadowRoot = shadowRoot;
+    }
+
+    public String getShadowRoot() {
+        return shadowRoot;
+    }
+
+    public void setIframeXPath(String iframeXPath) {
+        this.iframeXPath = iframeXPath;
+    }
+
+    public String getIframeXPath() {
+        return iframeXPath;
+    }
+
+    public void setPageObjectTypes(List<PageObjectTypeEntity> pageObjectTypes) {
+        this.pageObjectTypes = pageObjectTypes;
+    }
+
+    public String getCustomObjectType() {
+        return customObjectType;
+    }
+
+    public void setCustomObjectType(String customObjectType) {
+        this.customObjectType = customObjectType;
+    }
+
+    public List<PageObjectTypeEntity> getPageObjectTypes() {
+        return pageObjectTypes;
+    }
 
     public PageObjectEntity()
     {
