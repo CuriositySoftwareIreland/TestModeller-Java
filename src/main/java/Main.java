@@ -46,7 +46,7 @@ public class Main {
 
         // 3) Handle override variables if set;
         HashMap<String, String> overrideValues = new HashMap<String, String>();
-        if (args.length >= 2) {
+        if (args.length >= 3) {
             // Parse to JSON object
             try {
                 ObjectMapper mapper = new ObjectMapper();
