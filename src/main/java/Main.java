@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ie.curiositysoftware.allocation.dto.DataAllocationResult;
 import ie.curiositysoftware.allocation.engine.DataAllocationCriteria;
 import ie.curiositysoftware.allocation.engine.DataAllocationEngine;
@@ -17,8 +19,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Main {
+    // args[0] - xml path
+    // args[1] - output job location
+    // args[2] - override {var: value}
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
         UnirestHelper.initUnirestMapper();
 
@@ -36,6 +43,28 @@ public class Main {
         ConnectionProfile p = new ConnectionProfile();
         p.setAPIKey(result.getApikeyField());
         p.setAPIUrl(result.getUrlField());
+
+        // 3) Handle override variables if set;
+        HashMap<String, String> overrideValues = new HashMap<String, String>();
+        if (args.length >= 2) {
+            // Parse to JSON object
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode actualObj = mapper.readTree(args[2]);
+
+                for (Iterator<String> it = actualObj.fieldNames(); it.hasNext(); ) {
+                    String fName = it.next();
+
+                    String fValue = actualObj.get(fName).toString();
+
+                    overrideValues.put(fName, fValue);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                System.out.println("Continuing...");
+            }
+        }
 
         // 3 - Construct job entity
         Job job = new Job();
@@ -58,7 +87,8 @@ public class Main {
         int index = 1;
         for(JobSettingParameter curParam : result.getParametersField())
         {
-            System.out.println("Creating parameter - " + curParam.getNameField() + " " + curParam.getTypeField() + " " + curParam.getValueField());
+            System.out.println("Working on parameter - " + curParam.getNameField() + " " + curParam.getTypeField());
+
             if (curParam.getTypeField().equals("fileupload"))
             {
                 // Upload it
@@ -77,10 +107,18 @@ public class Main {
                 job.getVipAutomationJobSettings().getAutomationParameters().add(param);
             } else {
                 AutomationExecutionParameter param = new AutomationExecutionParameter();
+
                 param.setVar(curParam.getNameField());
-                param.setValue(curParam.getValueField());
+
+                if (overrideValues.containsKey(curParam.getNameField())) {
+                    param.setValue(overrideValues.get(curParam.getNameField()));
+                } else {
+                    param.setValue(curParam.getValueField());
+                }
                 param.setParamIndex(index);
                 job.getVipAutomationJobSettings().getAutomationParameters().add(param);
+
+                System.out.println("Added parameter - " + param.getVar() + " " + param.getValue());
             }
 
             index++;
@@ -88,6 +126,7 @@ public class Main {
 
         // 4 - Submit job
         JobExecutor jobExecutor = new JobExecutor(p);
+
         if (!jobExecutor.executeJob(job, args[1], result.getMaximumtimeField())) {
             System.out.println(jobExecutor.getErrorMessage());
 
