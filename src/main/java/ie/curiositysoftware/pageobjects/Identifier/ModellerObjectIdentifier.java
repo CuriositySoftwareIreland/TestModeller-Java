@@ -59,4 +59,9 @@ public class ModellerObjectIdentifier {
             this.pageObjectId = (int) this.pageObjectEntity.getId();
         }
     }
+
+    @Override
+    public String toString() {
+        return pageObjectName.toString();
+    }
 }
