@@ -10,7 +10,7 @@ Include in your maven project using the following code
 <dependency>
   <groupId>ie.curiositysoftware</groupId>
   <artifactId>testmodeller</artifactId>
-  <version>2.0.3</version>
+  <version>2.0.25</version>
 </dependency>
 ```
 
