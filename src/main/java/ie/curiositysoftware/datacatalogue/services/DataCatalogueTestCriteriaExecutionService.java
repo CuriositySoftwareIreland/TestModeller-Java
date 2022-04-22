@@ -53,7 +53,7 @@ public class DataCatalogueTestCriteriaExecutionService {
     }
 
 
-    public PageImpl<DataListRowDto> GetDataListRows( Long catalogueId, Long criteriaId, Pageable pageable, Map<String, String> parameters)
+    public PageImpl<DataListRowDto> GetDataListRows(Long catalogueId, Long criteriaId, Pageable pageable, Map<String, String> parameters)
     {
         try {
             String queryString = "";
@@ -69,7 +69,7 @@ public class DataCatalogueTestCriteriaExecutionService {
             }
 
 
-            HttpResponse<com.fasterxml.jackson.databind.JsonNode> postResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/data-catalogue/" + catalogueId + "/test-criteria/" + criteriaId + "/listdata?" + queryString)
+            HttpResponse<com.fasterxml.jackson.databind.JsonNode> postResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + m_ConnectionProfile.getAPIKey() + "/data-catalogue/" + catalogueId + "/test-criteria/" + criteriaId + "/listdata?" + queryString)
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     //.asJson();
