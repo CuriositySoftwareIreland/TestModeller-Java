@@ -1,33 +1,30 @@
-package ie.curiositysoftware.datacatalogue.services;
+package ie.curiositysoftware.tdm.services;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import ie.curiositysoftware.allocation.dto.DataCatalogueTestCriteria;
 import ie.curiositysoftware.datacatalogue.DataListRowDto;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
-
 import ie.curiositysoftware.utils.RestResponsePage;
-import org.apache.http.client.AuthCache;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 
-public class DataCatalogueTestCriteriaExecutionService {
+public class DataListService {
+
     ConnectionProfile m_ConnectionProfile;
 
     String m_ErrorMessage;
 
-    public DataCatalogueTestCriteriaExecutionService(ConnectionProfile connectionProfile)
+    public DataListService(ConnectionProfile connectionProfile)
     {
         m_ConnectionProfile = connectionProfile;
     }
@@ -39,38 +36,26 @@ public class DataCatalogueTestCriteriaExecutionService {
             throw new UnsupportedOperationException(e);
         }
     }
-    static String urlEncodeUTF8(Map<?,?> map) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<?,?> entry : map.entrySet()) {
-            if (sb.length() > 0) {
-                sb.append("&");
-            }
-            sb.append(String.format("%s=%s",
-                    urlEncodeUTF8(entry.getKey().toString()),
-                    urlEncodeUTF8(entry.getValue().toString())
-            ));
-        }
-        return sb.toString();
-    }
 
-
-    public PageImpl<DataListRowDto> GetDataListRows(Long catalogueId, Long criteriaId, Pageable pageable, Map<String, String> parameters)
+    public PageImpl<DataListRowDto> GetDataListRows(Long listID, String query, String select)
     {
         try {
-            String queryString = "";
-            if (parameters != null && parameters.size() > 0) {
-                queryString = parameters.entrySet().stream()
-                        .map(p -> urlEncodeUTF8(p.getKey()) + "=" + urlEncodeUTF8(p.getValue()))
-                        .reduce((p1, p2) -> p1 + "&" + p2)
-                        .orElse("");
-            }
-            if (pageable != null)
+
+            String url = m_ConnectionProfile.getTDMUrl() + "apikey/" + m_ConnectionProfile.getAPIKey() + "/metadata/lists/" + listID + "/rows";
+
+            String prepend = "?";
+            if (!query.isEmpty())
             {
-                queryString = queryString + "page=" + pageable.getPageNumber() + "&size=" + pageable.getPageSize();
+                url = url + prepend + "where=" + urlEncodeUTF8(query);
+                prepend = "&";
+            }
+            if (!select.isEmpty())
+            {
+                url = url + prepend + "select=" + urlEncodeUTF8(select);
+                prepend = "&";
             }
 
-
-            HttpResponse<com.fasterxml.jackson.databind.JsonNode> postResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + m_ConnectionProfile.getAPIKey() + "/data-catalogue/" + catalogueId + "/test-criteria/" + criteriaId + "/listdata?" + queryString)
+            HttpResponse<JsonNode> postResponse = Unirest.get(url)
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     //.asJson();

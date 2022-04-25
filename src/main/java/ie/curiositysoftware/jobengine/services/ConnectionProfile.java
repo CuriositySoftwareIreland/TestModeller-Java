@@ -6,6 +6,8 @@ public class ConnectionProfile
 
     private String APIKey;
 
+    private String TDMUrl;
+
     private String GlobalKey;
 
     public ConnectionProfile(String host, String apiKey)
@@ -31,6 +33,8 @@ public class ConnectionProfile
         APIUrl = p.APIUrl;
 
         GlobalKey = p.GlobalKey;
+
+        TDMUrl = p.TDMUrl;
     }
 
     public void setAPIKey(String APIKey) {
@@ -39,6 +43,18 @@ public class ConnectionProfile
 
     public String getAPIKey() {
         return APIKey;
+    }
+
+    public void setTDMUrl(String TDMUrl) {
+        this.TDMUrl = TDMUrl;
+    }
+
+    public String getTDMUrl()
+    {
+        if (!TDMUrl.endsWith("/"))
+            return TDMUrl + "/";
+
+        return TDMUrl;
     }
 
     public String getAPIUrl() {
