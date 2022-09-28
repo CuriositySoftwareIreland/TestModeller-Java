@@ -14,6 +14,8 @@ public class JobResult {
 
     private Long job;
 
+    private String resultValue;
+
     public JobResult()
     {
 
@@ -57,5 +59,13 @@ public class JobResult {
 
     public Long getJob() {
         return job;
+    }
+
+    public String getResultValue() {
+        return resultValue;
+    }
+
+    public void setResultValue(String resultValue) {
+        this.resultValue = resultValue;
     }
 }
