@@ -1,9 +1,9 @@
 package ie.curiositysoftware.utils;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.HttpRequest;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
+import kong.unirest.HttpRequest;
+import kong.unirest.HttpResponse;
+import kong.unirest.UnirestException;
 
 public class RestService {
 

@@ -1,10 +1,10 @@
 package ie.curiositysoftware.allocation.services;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
 import ie.curiositysoftware.allocation.dto.AllocatedTest;
 import ie.curiositysoftware.allocation.dto.AllocationPool;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 
 public class AllocationPoolTestService {
     ConnectionProfile m_ConnectionProfile;

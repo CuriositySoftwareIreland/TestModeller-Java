@@ -3,9 +3,8 @@ package ie.curiositysoftware.runresult.services;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.utils.UnirestHelper;
 import ie.curiositysoftware.runresult.dto.TestPathRun;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 
 /**
  * Server for saving run results to test modeller

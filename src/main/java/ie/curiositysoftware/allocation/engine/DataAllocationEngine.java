@@ -9,8 +9,8 @@ import ie.curiositysoftware.jobengine.dto.job.JobState;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.jobengine.services.job.JobSubmissionService;
 import ie.curiositysoftware.utils.UnirestHelper;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -2,9 +2,9 @@ package ie.curiositysoftware.jobengine.services.job;
 
 import ie.curiositysoftware.jobengine.dto.job.Job;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 
 public class JobSubmissionService {
     private ConnectionProfile m_ConnectionProfile;

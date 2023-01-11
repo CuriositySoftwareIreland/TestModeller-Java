@@ -1,10 +1,10 @@
 package ie.curiositysoftware.allocation.services;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
 import ie.curiositysoftware.allocation.dto.DataAllocationResult;
 import ie.curiositysoftware.allocation.dto.DataCatalogueTestCriteria;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 
 public class DataCriteriaService {
     ConnectionProfile m_ConnectionProfile;

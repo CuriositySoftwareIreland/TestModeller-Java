@@ -1,10 +1,10 @@
 package ie.curiositysoftware.runresult.services;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.runresult.dto.TestPathRunCollectionEntity;
 import ie.curiositysoftware.utils.UnirestHelper;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 
 public class TestPathRunCollectionService {
     private String m_ErrorMessage;

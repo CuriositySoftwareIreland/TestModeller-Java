@@ -3,16 +3,16 @@ package ie.curiositysoftware.datacatalogue.services;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
 import ie.curiositysoftware.allocation.dto.DataCatalogueTestCriteria;
 import ie.curiositysoftware.datacatalogue.DataListRowDto;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 
 import ie.curiositysoftware.utils.RestResponsePage;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 import org.apache.http.client.AuthCache;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -70,7 +70,7 @@ public class DataCatalogueTestCriteriaExecutionService {
             }
 
 
-            HttpResponse<com.fasterxml.jackson.databind.JsonNode> postResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + m_ConnectionProfile.getAPIKey() + "/data-catalogue/" + catalogueId + "/test-criteria/" + criteriaId + "/listdata?" + queryString)
+            HttpResponse<JsonNode> postResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + m_ConnectionProfile.getAPIKey() + "/data-catalogue/" + catalogueId + "/test-criteria/" + criteriaId + "/listdata?" + queryString)
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     //.asJson();

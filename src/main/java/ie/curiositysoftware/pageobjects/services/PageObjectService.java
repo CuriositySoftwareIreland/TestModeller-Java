@@ -2,14 +2,14 @@ package ie.curiositysoftware.pageobjects.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.ObjectMapper;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.pageobjects.dto.PageObjectEntity;
 import ie.curiositysoftware.pageobjects.dto.PageObjectHistoryEntity;
 import ie.curiositysoftware.pageobjects.dto.PageObjectParameterEntity;
+import kong.unirest.HttpResponse;
+import kong.unirest.ObjectMapper;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 
 import java.io.File;
 import java.io.IOException;
@@ -217,6 +217,6 @@ public class PageObjectService {
                 }
             }
         });
-        Unirest.setObjectMapper(om);
+        Unirest.config().setObjectMapper(om);
     }
 }

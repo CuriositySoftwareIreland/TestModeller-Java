@@ -2,8 +2,8 @@ package ie.curiositysoftware.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.mashape.unirest.http.ObjectMapper;
-import com.mashape.unirest.http.Unirest;
+import kong.unirest.ObjectMapper;
+import kong.unirest.Unirest;
 
 import java.io.IOException;
 
@@ -33,6 +33,6 @@ public class UnirestHelper {
             }
         });
 
-        Unirest.setObjectMapper(om);
+        Unirest.config().setObjectMapper(om);
     }
 }
