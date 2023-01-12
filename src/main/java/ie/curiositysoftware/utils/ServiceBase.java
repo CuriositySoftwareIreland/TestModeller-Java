@@ -3,12 +3,10 @@ package ie.curiositysoftware.utils;
 public abstract class ServiceBase {
     public String createURLs(String... args)
     {
-        String url = "";
+        String url = args[0];
 
-        for(String arg : args)
-        {
-            url = buildUrl(url, arg);
-        }
+        for (int i = 1; i < args.length; i++)
+            url = buildUrl(url, args[i]);
 
         return url;
     }
@@ -20,7 +18,7 @@ public abstract class ServiceBase {
         }
 
         while (urlSuffix.startsWith("/")) { //Remove opening '/'
-            urlSuffix = urlSuffix.substring(1, urlPrefixFixed.length());
+            urlSuffix = urlSuffix.substring(1, urlSuffix.length());
         }
 
         return (urlPrefixFixed + "/" + urlSuffix);
