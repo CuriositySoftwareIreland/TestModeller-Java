@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import ie.curiositysoftware.datacatalogue.DataListRowDto;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.utils.RestResponsePage;
+import ie.curiositysoftware.utils.ServiceBase;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import org.springframework.data.domain.PageImpl;
@@ -18,7 +19,7 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
-public class DataListService {
+public class DataListService extends ServiceBase {
 
     ConnectionProfile m_ConnectionProfile;
 
@@ -41,7 +42,7 @@ public class DataListService {
     {
         try {
 
-            String url = m_ConnectionProfile.getTDMUrl() + "apikey/" + m_ConnectionProfile.getAPIKey() + "/metadata/lists/" + listID + "/rows";
+            String url = createURLs(m_ConnectionProfile.getTDMUrl(), "apikey/", m_ConnectionProfile.getAPIKey(), "/metadata/lists/", listID.toString(), "/rows");
 
             String prepend = "?";
             if (!query.isEmpty())

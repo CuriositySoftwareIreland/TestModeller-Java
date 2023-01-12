@@ -2,11 +2,12 @@ package ie.curiositysoftware.jobengine.services.job;
 
 import ie.curiositysoftware.jobengine.dto.job.Job;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
+import ie.curiositysoftware.utils.ServiceBase;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 
-public class JobSubmissionService {
+public class JobSubmissionService extends ServiceBase {
     private ConnectionProfile m_ConnectionProfile;
 
     private String m_ErrorMessage;
@@ -26,7 +27,7 @@ public class JobSubmissionService {
     public Job getJob(long jobId)
     {
         try {
-            HttpResponse<Job> jsonResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + this.m_ConnectionProfile.getAPIKey() + "/job/" + jobId)
+            HttpResponse<Job> jsonResponse = Unirest.get(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", this.m_ConnectionProfile.getAPIKey(), "/job/", Long.toString(jobId)))
                     .header("Content-Type","application/json")
                     .header("accept", "application/json")
                     .asObject(Job.class);
@@ -49,7 +50,7 @@ public class JobSubmissionService {
     public Job addJob(Job job)
     {
         try{
-            HttpResponse<Job> jsonResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + this.m_ConnectionProfile.getAPIKey() + "/job")
+            HttpResponse<Job> jsonResponse = Unirest.post(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", this.m_ConnectionProfile.getAPIKey(), "/job"))
                     .header("accept", "application/json")
                     .header("Content-Type","application/json")
                     .body(job)

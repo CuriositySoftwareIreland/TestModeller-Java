@@ -6,6 +6,7 @@ import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.pageobjects.dto.PageObjectEntity;
 import ie.curiositysoftware.pageobjects.dto.PageObjectHistoryEntity;
 import ie.curiositysoftware.pageobjects.dto.PageObjectParameterEntity;
+import ie.curiositysoftware.utils.ServiceBase;
 import kong.unirest.HttpResponse;
 import kong.unirest.ObjectMapper;
 import kong.unirest.Unirest;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PageObjectService {
+public class PageObjectService extends ServiceBase {
     private ConnectionProfile m_ConnectionProfile;
 
     private String m_ErrorMessage;
@@ -49,7 +50,7 @@ public class PageObjectService {
     public Boolean AddPageObjectHistory(PageObjectHistoryEntity pageObjectHistoryEntity)
     {
         try {
-            HttpResponse jsonResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + this.m_ConnectionProfile.getAPIKey() + "/page-collection/page-object/page-object-history")
+            HttpResponse jsonResponse = Unirest.post(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", this.m_ConnectionProfile.getAPIKey(), "/page-collection/page-object/page-object-history"))
                     .header("accept", "application/json")
                     .header("Content-Type","application/json")
                     .body(pageObjectHistoryEntity)
@@ -75,7 +76,7 @@ public class PageObjectService {
     public Boolean UpdatePageObjectParameter(PageObjectParameterEntity pageObjectParameter)
     {
         try {
-            HttpResponse jsonResponse = Unirest.put(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + this.m_ConnectionProfile.getAPIKey() + "/page-collection/page-object/page-object-param")
+            HttpResponse jsonResponse = Unirest.put(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", this.m_ConnectionProfile.getAPIKey(), "/page-collection/page-object/page-object-param"))
                     .header("accept", "application/json")
                     .header("Content-Type","application/json")
                     .body(pageObjectParameter)
@@ -101,7 +102,7 @@ public class PageObjectService {
     public Boolean UpdatePageObject(PageObjectEntity pageObjectEntity)
     {
         try {
-            HttpResponse jsonResponse = Unirest.put(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + this.m_ConnectionProfile.getAPIKey() + "/page-collection/page-object")
+            HttpResponse jsonResponse = Unirest.put(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", this.m_ConnectionProfile.getAPIKey(), "/page-collection/page-object"))
                     .header("accept", "application/json")
                     .header("Content-Type","application/json")
                     .body(pageObjectEntity)
@@ -146,7 +147,7 @@ public class PageObjectService {
             poSearchCriteria.objectName = matcher.group("objectName");
 
             // 2) Call API to get component
-            HttpResponse<PageObjectEntity> jsonResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + this.m_ConnectionProfile.getAPIKey() + "/project/release/page-collection/page-object/criteria")
+            HttpResponse<PageObjectEntity> jsonResponse = Unirest.post(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", this.m_ConnectionProfile.getAPIKey(), "/project/release/page-collection/page-object/criteria"))
                     .header("accept", "application/json")
                     .header("Content-Type","application/json")
                     .body(poSearchCriteria)
@@ -172,7 +173,7 @@ public class PageObjectService {
         setUnirestMapper();
 
         try {
-            HttpResponse<PageObjectEntity> jsonResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + this.m_ConnectionProfile.getAPIKey() + "/page-collection/page-object/" + pageId)
+            HttpResponse<PageObjectEntity> jsonResponse = Unirest.get(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", this.m_ConnectionProfile.getAPIKey(), "/page-collection/page-object/", Long.toString(pageId)))
                     .header("accept", "application/json")
                     .header("Content-Type","application/json")
                     .asObject(PageObjectEntity.class);

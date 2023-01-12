@@ -3,10 +3,11 @@ package ie.curiositysoftware.allocation.services;
 import ie.curiositysoftware.allocation.dto.DataAllocationResult;
 import ie.curiositysoftware.allocation.dto.DataCatalogueTestCriteria;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
+import ie.curiositysoftware.utils.ServiceBase;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
-public class DataCriteriaService {
+public class DataCriteriaService extends ServiceBase {
     ConnectionProfile m_ConnectionProfile;
 
     String m_ErrorMessage;
@@ -19,7 +20,7 @@ public class DataCriteriaService {
     public DataCatalogueTestCriteria GetTestCriteria(String catalogueName, String criteriaName)
     {
         try {
-            HttpResponse<DataCatalogueTestCriteria> postResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/data-catalogue/" + catalogueName + "/test-criteria/" + criteriaName)
+            HttpResponse<DataCatalogueTestCriteria> postResponse = Unirest.get(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/data-catalogue/", catalogueName, "/test-criteria/", criteriaName))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .asObject(DataCatalogueTestCriteria.class);

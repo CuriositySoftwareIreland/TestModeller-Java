@@ -2,10 +2,11 @@ package ie.curiositysoftware.allocation.services;
 
 import ie.curiositysoftware.allocation.dto.AllocationPool;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
+import ie.curiositysoftware.utils.ServiceBase;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
-public class AllocationPoolService {
+public class AllocationPoolService extends ServiceBase {
     ConnectionProfile m_ConnectionProfile;
 
     String m_ErrorMessage;
@@ -18,7 +19,7 @@ public class AllocationPoolService {
     public AllocationPool CreateAllocationPool(AllocationPool allocationPool)
     {
         try {
-            HttpResponse<AllocationPool> postResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool")
+            HttpResponse<AllocationPool> postResponse = Unirest.post(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/allocation-pool"))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .body(allocationPool)
@@ -43,7 +44,7 @@ public class AllocationPoolService {
     public AllocationPool GetAllocationPool(String name)
     {
         try {
-            HttpResponse<AllocationPool> getResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/name/" + name)
+            HttpResponse<AllocationPool> getResponse = Unirest.get(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/allocation-pool/name/", name))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .asObject(AllocationPool.class);
@@ -67,7 +68,7 @@ public class AllocationPoolService {
     public Boolean DeleteAllocationPool(Long id)
     {
         try {
-            HttpResponse deleteResponse = Unirest.delete(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/" + id)
+            HttpResponse deleteResponse = Unirest.delete(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/allocation-pool/", id.toString()))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .asJson();

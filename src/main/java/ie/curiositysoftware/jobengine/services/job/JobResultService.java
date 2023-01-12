@@ -2,11 +2,12 @@ package ie.curiositysoftware.jobengine.services.job;
 
 import ie.curiositysoftware.jobengine.dto.job.JobResult;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
+import ie.curiositysoftware.utils.ServiceBase;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 
-public class JobResultService {
+public class JobResultService extends ServiceBase {
     private ConnectionProfile m_ConnectionProfile;
 
     private String m_ErrorMessage;
@@ -27,7 +28,7 @@ public class JobResultService {
     public JobResult getResult(long jobId)
     {
         try {
-            HttpResponse<JobResult> jsonResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + this.m_ConnectionProfile.getAPIKey() + "/job/" + jobId + "/result")
+            HttpResponse<JobResult> jsonResponse = Unirest.get(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", this.m_ConnectionProfile.getAPIKey(), "/job/", Long.toString(jobId), "/result"))
                 .header("accept", "application/json")
                 .header("Content-Type","application/json")
                 .asObject(JobResult.class);

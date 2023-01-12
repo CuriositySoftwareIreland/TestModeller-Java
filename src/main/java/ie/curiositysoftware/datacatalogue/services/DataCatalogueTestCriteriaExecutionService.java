@@ -11,6 +11,7 @@ import ie.curiositysoftware.datacatalogue.DataListRowDto;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 
 import ie.curiositysoftware.utils.RestResponsePage;
+import ie.curiositysoftware.utils.ServiceBase;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import org.apache.http.client.AuthCache;
@@ -22,7 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
 
-public class DataCatalogueTestCriteriaExecutionService {
+public class DataCatalogueTestCriteriaExecutionService extends ServiceBase {
     ConnectionProfile m_ConnectionProfile;
 
     String m_ErrorMessage;
@@ -70,7 +71,7 @@ public class DataCatalogueTestCriteriaExecutionService {
             }
 
 
-            HttpResponse<JsonNode> postResponse = Unirest.get(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + m_ConnectionProfile.getAPIKey() + "/data-catalogue/" + catalogueId + "/test-criteria/" + criteriaId + "/listdata?" + queryString)
+            HttpResponse<JsonNode> postResponse = Unirest.get(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", m_ConnectionProfile.getAPIKey(), "/data-catalogue/", catalogueId.toString(), "/test-criteria/", criteriaId.toString(), "/listdata?", queryString))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     //.asJson();

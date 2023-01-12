@@ -3,10 +3,11 @@ package ie.curiositysoftware.allocation.services;
 import ie.curiositysoftware.allocation.dto.AllocatedTest;
 import ie.curiositysoftware.allocation.dto.AllocationPool;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
+import ie.curiositysoftware.utils.ServiceBase;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
-public class AllocationPoolTestService {
+public class AllocationPoolTestService extends ServiceBase {
     ConnectionProfile m_ConnectionProfile;
 
     String m_ErrorMessage;
@@ -19,7 +20,7 @@ public class AllocationPoolTestService {
     public AllocatedTest CreateAllocatedTest(AllocatedTest allocatedTest, Long poolId)
     {
         try {
-            HttpResponse<AllocatedTest> postResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/" + poolId + "/allocated-test")
+            HttpResponse<AllocatedTest> postResponse = Unirest.post(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/allocation-pool/", poolId.toString(), "/allocated-test"))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .body(allocatedTest)
@@ -44,7 +45,7 @@ public class AllocationPoolTestService {
     public Boolean DeleteAllocationPoolTest(Long id)
     {
         try {
-            HttpResponse deleteResponse = Unirest.delete(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/allocated-test/" + id)
+            HttpResponse deleteResponse = Unirest.delete(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/allocation-pool/allocated-test/", id.toString()))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .asJson();

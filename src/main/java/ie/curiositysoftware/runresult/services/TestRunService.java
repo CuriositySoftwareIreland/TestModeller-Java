@@ -1,6 +1,7 @@
 package ie.curiositysoftware.runresult.services;
 
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
+import ie.curiositysoftware.utils.ServiceBase;
 import ie.curiositysoftware.utils.UnirestHelper;
 import ie.curiositysoftware.runresult.dto.TestPathRun;
 import kong.unirest.HttpResponse;
@@ -9,7 +10,7 @@ import kong.unirest.Unirest;
 /**
  * Server for saving run results to test modeller
  */
-public class TestRunService {
+public class TestRunService extends ServiceBase {
     private String m_ErrorMessage;
 
     private ConnectionProfile m_ConnectionProfile;
@@ -39,7 +40,7 @@ public class TestRunService {
     public boolean saveTestPathRun(TestPathRun runEntity)
     {
         try {
-            HttpResponse<String> postResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/model/version/profile/testcollection/testsuite/testpath/run")
+            HttpResponse<String> postResponse = Unirest.post(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/model/version/profile/testcollection/testsuite/testpath/run"))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .body(runEntity)

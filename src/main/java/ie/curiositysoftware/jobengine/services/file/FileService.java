@@ -2,13 +2,14 @@ package ie.curiositysoftware.jobengine.services.file;
 
 import ie.curiositysoftware.jobengine.dto.file.UploadFileResponse;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
+import ie.curiositysoftware.utils.ServiceBase;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 
 import java.io.File;
 
-public class FileService {
+public class FileService extends ServiceBase {
     private ConnectionProfile m_ConnectionProfile;
 
     private String m_ErrorMessage;
@@ -30,7 +31,7 @@ public class FileService {
         String endUrl = m_ConnectionProfile.getAPIUrl();
 
         try {
-            HttpResponse<UploadFileResponse> jsonResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "api/apikey/" + this.m_ConnectionProfile.getAPIKey() + "/file-storage/upload")
+            HttpResponse<UploadFileResponse> jsonResponse = Unirest.post(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", this.m_ConnectionProfile.getAPIKey(), "/file-storage/upload"))
                     .header("accept", "application/json")
 //                    .header("Content-Type","multipart/form-data")
                     .field("file", fileDataStorage)
