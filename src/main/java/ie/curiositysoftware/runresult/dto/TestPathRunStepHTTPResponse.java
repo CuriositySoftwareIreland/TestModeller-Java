@@ -9,13 +9,13 @@ import java.util.HashMap;
 
 public class TestPathRunStepHTTPResponse
 {
-    private String StatusText;
+    private String statusText;
 
-    private HashMap<String, String> Headers;
+    private HashMap<String, String> headers;
 
-    private int StatusCode;
+    private int statusCode;
 
-    private String Body;
+    private String body;
 
     private String contentType;
 
@@ -29,35 +29,35 @@ public class TestPathRunStepHTTPResponse
     }
 
     public void setStatusCode(int statusCode) {
-        StatusCode = statusCode;
+        this.statusCode = statusCode;
     }
 
     public HashMap<String, String> getHeaders() {
-        return Headers;
+        return this.headers;
     }
 
     public int getStatusCode() {
-        return StatusCode;
+        return this.statusCode;
     }
 
     public String getBody() {
-        return Body;
+        return this.body;
     }
 
     public void setBody(String body) {
-        Body = body;
+        this.body = body;
     }
 
     public String getStatusText() {
-        return StatusText;
+        return this.statusText;
     }
 
     public void setHeaders(HashMap<String, String> headers) {
-        Headers = headers;
+        this.headers = headers;
     }
 
     public void setStatusText(String statusText) {
-        StatusText = statusText;
+        this.statusText = statusText;
     }
 
     public Long getTime() {
