@@ -17,6 +17,12 @@ public class TestPathRunStepHTTPResponse
 
     private String Body;
 
+    private String contentType;
+
+    private String sessionId;
+
+    private Long time;
+
     public TestPathRunStepHTTPResponse()
     {
 
@@ -52,5 +58,29 @@ public class TestPathRunStepHTTPResponse
 
     public void setStatusText(String statusText) {
         StatusText = statusText;
+    }
+
+    public Long getTime() {
+        return time;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public void setTime(Long time) {
+        this.time = time;
     }
 }
