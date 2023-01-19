@@ -3,6 +3,11 @@ package ie.curiositysoftware.runresult.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class TestPathRunStep {
+    public enum TestPathRunStepType {
+        Default,
+        APIStep
+    }
+
     private Long id;
 
     private String stepName;
@@ -16,6 +21,15 @@ public class TestPathRunStep {
     private byte[] image;
 
     private String nodeGuid;
+
+    private TestPathRunStepType stepType;
+
+    private TestPathRunStepHTTPResponse httpResponse;
+
+    public TestPathRunStep()
+    {
+        stepType = TestPathRunStepType.Default;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -71,5 +85,24 @@ public class TestPathRunStep {
 
     public String getNodeGuid() {
         return nodeGuid;
+    }
+
+    public TestPathRunStepType getStepType() {
+        if (stepType == null)
+            return TestPathRunStepType.Default;
+
+        return stepType;
+    }
+
+    public void setStepType(TestPathRunStepType stepType) {
+        this.stepType = stepType;
+    }
+
+    public TestPathRunStepHTTPResponse getHttpResponse() {
+        return httpResponse;
+    }
+
+    public void setHttpResponse(TestPathRunStepHTTPResponse httpResponse) {
+        this.httpResponse = httpResponse;
     }
 }
