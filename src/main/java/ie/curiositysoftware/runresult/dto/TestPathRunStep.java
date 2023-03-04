@@ -26,6 +26,8 @@ public class TestPathRunStep {
 
     private TestPathRunStepHTTPResponse httpResponse;
 
+    private TestPathRunStepHTTPRequest httpRequest;
+
     public TestPathRunStep()
     {
         stepType = TestPathRunStepType.Default;
@@ -104,5 +106,13 @@ public class TestPathRunStep {
 
     public void setHttpResponse(TestPathRunStepHTTPResponse httpResponse) {
         this.httpResponse = httpResponse;
+    }
+
+    public TestPathRunStepHTTPRequest getHttpRequest() {
+        return httpRequest;
+    }
+
+    public void setHttpRequest(TestPathRunStepHTTPRequest httpRequest) {
+        this.httpRequest = httpRequest;
     }
 }
