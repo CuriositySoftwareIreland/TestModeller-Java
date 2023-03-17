@@ -72,4 +72,29 @@ public class JobSubmissionService extends ServiceBase {
             return null;
         }
     }
+
+    public Job cloneJobAndRun(Long jobId)
+    {
+        try{
+            HttpResponse<Job> jsonResponse = Unirest.put(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", this.m_ConnectionProfile.getAPIKey(), "/job/" + jobId + "/clone-and-run"))
+                    .header("accept", "application/json")
+                    .header("Content-Type","application/json")
+                    .asObject(Job.class);
+
+            System.out.println(jsonResponse.getStatus() + jsonResponse.getStatusText() + jsonResponse.toString());
+            if (jsonResponse.getStatus() != 200) {
+                m_ErrorMessage = jsonResponse.getStatusText();
+
+                return null;
+            }
+
+            return jsonResponse.getBody();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+
+            m_ErrorMessage = e.getMessage();
+
+            return null;
+        }
+    }
 }

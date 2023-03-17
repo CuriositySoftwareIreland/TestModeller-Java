@@ -43,6 +43,10 @@ public class Job {
 
     private RunResultAnalysisJobSettings runResultAnalysisJobSettings;
 
+    private Long noPasses;
+
+    private Long noFailures;
+
     public Job()
     {
 
@@ -190,5 +194,21 @@ public class Job {
 
     public void setRunResultAnalysisJobSettings(RunResultAnalysisJobSettings runResultAnalysisJobSettings) {
         this.runResultAnalysisJobSettings = runResultAnalysisJobSettings;
+    }
+
+    public Long getNoPasses() {
+        return noPasses;
+    }
+
+    public Long getNoFailures() {
+        return noFailures;
+    }
+
+    public void setNoFailures(Long noFailures) {
+        this.noFailures = noFailures;
+    }
+
+    public void setNoPasses(Long noPasses) {
+        this.noPasses = noPasses;
     }
 }
