@@ -7,6 +7,7 @@ import ie.curiositysoftware.pageobjects.dto.PageObjectEntity;
 import ie.curiositysoftware.pageobjects.dto.PageObjectHistoryEntity;
 import ie.curiositysoftware.pageobjects.dto.PageObjectParameterEntity;
 import ie.curiositysoftware.utils.ServiceBase;
+import ie.curiositysoftware.utils.UnirestHelper;
 import kong.unirest.HttpResponse;
 import kong.unirest.ObjectMapper;
 import kong.unirest.Unirest;
@@ -127,7 +128,7 @@ public class PageObjectService extends ServiceBase {
 
     public PageObjectEntity GetPageObject(String pageObjectName)
     {
-        setUnirestMapper();
+        UnirestHelper.initUnirestMapper();
 
         try {
             // 1) Extract components
@@ -170,7 +171,7 @@ public class PageObjectService extends ServiceBase {
 
     public PageObjectEntity GetPageObject(long pageId)
     {
-        setUnirestMapper();
+        UnirestHelper.initUnirestMapper();
 
         try {
             HttpResponse<PageObjectEntity> jsonResponse = Unirest.get(createURLs(m_ConnectionProfile.getAPIUrl(), "api/apikey/", this.m_ConnectionProfile.getAPIKey(), "/page-collection/page-object/", Long.toString(pageId)))
@@ -191,33 +192,5 @@ public class PageObjectService extends ServiceBase {
 
             return null;
         }
-    }
-
-    private void setUnirestMapper()
-    {
-        ObjectMapper om = (new ObjectMapper() {
-            public com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
-
-            {
-                jacksonObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            }
-
-            public <T> T readValue(String value, Class<T> valueType) {
-                try {
-                    return jacksonObjectMapper.readValue(value, valueType);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-            public String writeValue(Object value) {
-                try {
-                    return jacksonObjectMapper.writeValueAsString(value);
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        Unirest.config().setObjectMapper(om);
     }
 }
