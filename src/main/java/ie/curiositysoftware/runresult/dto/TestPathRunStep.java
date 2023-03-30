@@ -22,6 +22,10 @@ public class TestPathRunStep {
 
     private String nodeGuid;
 
+    private Long moduleColId;
+
+    private Long moduleObjId;
+
     private TestPathRunStepType stepType;
 
     private TestPathRunStepHTTPResponse httpResponse;
@@ -114,5 +118,21 @@ public class TestPathRunStep {
 
     public void setHttpRequest(TestPathRunStepHTTPRequest httpRequest) {
         this.httpRequest = httpRequest;
+    }
+
+    public void setModuleObjId(Long moduleObjId) {
+        this.moduleObjId = moduleObjId;
+    }
+
+    public void setModuleColId(Long moduleColId) {
+        this.moduleColId = moduleColId;
+    }
+
+    public Long getModuleObjId() {
+        return moduleObjId;
+    }
+
+    public Long getModuleColId() {
+        return moduleColId;
     }
 }
