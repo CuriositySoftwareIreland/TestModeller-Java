@@ -25,6 +25,10 @@ public class TestPathRun
 
     public int runTime;
 
+    public Long profileId;
+
+    public Long testSuiteId;
+
     public String runSource;
 
     private List<TestPathRunStep> testPathRunSteps;
@@ -120,5 +124,21 @@ public class TestPathRun
 
     public String getRunSource() {
         return runSource;
+    }
+
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
+    }
+
+    public Long getTestSuiteId() {
+        return testSuiteId;
+    }
+
+    public Long getProfileId() {
+        return profileId;
+    }
+
+    public void setTestSuiteId(Long testSuiteId) {
+        this.testSuiteId = testSuiteId;
     }
 }
