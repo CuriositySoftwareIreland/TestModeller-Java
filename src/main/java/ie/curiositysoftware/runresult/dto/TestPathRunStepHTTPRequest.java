@@ -26,6 +26,8 @@ public class TestPathRunStepHTTPRequest
 
     private HashMap<String, String> headers;
 
+    private HashMap<String, String> cookies;
+
     private String body;
 
     private String endpoint;
@@ -70,5 +72,13 @@ public class TestPathRunStepHTTPRequest
 
     public BodyType getBodyType() {
         return bodyType;
+    }
+
+    public void setCookies(HashMap<String, String> cookies) {
+        this.cookies = cookies;
+    }
+
+    public HashMap<String, String> getCookies() {
+        return cookies;
     }
 }

@@ -13,6 +13,8 @@ public class TestPathRunStepHTTPResponse
 
     private HashMap<String, String> headers;
 
+    private HashMap<String, String> cookies;
+
     private int statusCode;
 
     private String body;
@@ -82,5 +84,13 @@ public class TestPathRunStepHTTPResponse
 
     public void setTime(Long time) {
         this.time = time;
+    }
+
+    public HashMap<String, String> getCookies() {
+        return cookies;
+    }
+
+    public void setCookies(HashMap<String, String> cookies) {
+        this.cookies = cookies;
     }
 }
