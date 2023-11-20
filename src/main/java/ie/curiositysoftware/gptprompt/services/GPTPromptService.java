@@ -105,10 +105,10 @@ public class GPTPromptService  extends ServiceBase {
             if (jsonResponse.getStatus() != 200) {
                 m_ErrorMessage = jsonResponse.getStatusText();
 
-                return jsonResponse.getBody();
+                return null;
             }
 
-            return null;
+            return jsonResponse.getBody();
         } catch (UnirestException e) {
             e.printStackTrace();
 

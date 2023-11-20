@@ -6,5 +6,10 @@ public enum JobType {
     AutomationGenerationJob,
     ExportTestSuiteJob,
     VIPAutoExecutionJob,
-    RunResultAnalysisAndTestGenerationJob
+    RunResultAnalysisAndTestGenerationJob,
+    HopperChildJob,
+    RepairTestJob,
+    ModellerJob,
+    ImportModelJob,
+    VisioExportJob
 }
