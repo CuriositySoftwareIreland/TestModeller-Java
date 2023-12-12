@@ -2,5 +2,9 @@ package ie.curiositysoftware.runresult.dto;
 
 public enum TestPathRunStatusEnum {
     Failed,
-    Passed
+    Passed,
+    Unknown,
+    RunFailed,
+    Queue,
+    Running
 }
