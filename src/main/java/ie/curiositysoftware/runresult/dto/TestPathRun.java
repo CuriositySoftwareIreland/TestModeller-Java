@@ -25,6 +25,9 @@ public class TestPathRun
 
     public int runTime;
 
+
+    private String runLogs;
+
     public Long profileId;
 
     public Long testSuiteId;
@@ -140,5 +143,13 @@ public class TestPathRun
 
     public void setTestSuiteId(Long testSuiteId) {
         this.testSuiteId = testSuiteId;
+    }
+
+    public String getRunLogs() {
+        return runLogs;
+    }
+
+    public void setRunLogs(String runLogs) {
+        this.runLogs = runLogs;
     }
 }

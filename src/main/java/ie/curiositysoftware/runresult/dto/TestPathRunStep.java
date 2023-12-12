@@ -2,6 +2,8 @@ package ie.curiositysoftware.runresult.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Date;
+
 public class TestPathRunStep {
     public enum TestPathRunStepType {
         Default,
@@ -24,6 +26,12 @@ public class TestPathRunStep {
 
     private Long moduleColId;
 
+    private Date runTimeStamp;
+
+    private String pageSource;
+
+    private String elementSource;
+
     private Long moduleObjId;
 
     private TestPathRunStepType stepType;
@@ -31,6 +39,8 @@ public class TestPathRunStep {
     private TestPathRunStepHTTPResponse httpResponse;
 
     private TestPathRunStepHTTPRequest httpRequest;
+
+    private Long testPathRun;
 
     public TestPathRunStep()
     {
@@ -134,5 +144,37 @@ public class TestPathRunStep {
 
     public Long getModuleColId() {
         return moduleColId;
+    }
+
+    public Long getTestPathRun() {
+        return testPathRun;
+    }
+
+    public void setTestPathRun(Long testPathRun) {
+        this.testPathRun = testPathRun;
+    }
+
+    public void setRunTimeStamp(Date runTimeStamp) {
+        this.runTimeStamp = runTimeStamp;
+    }
+
+    public void setElementSource(String elementSource) {
+        this.elementSource = elementSource;
+    }
+
+    public void setPageSource(String pageSource) {
+        this.pageSource = pageSource;
+    }
+
+    public String getPageSource() {
+        return pageSource;
+    }
+
+    public String getElementSource() {
+        return elementSource;
+    }
+
+    public Date getRunTimeStamp() {
+        return runTimeStamp;
     }
 }
