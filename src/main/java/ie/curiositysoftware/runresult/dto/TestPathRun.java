@@ -7,6 +7,8 @@ import java.util.List;
 
 public class TestPathRun
 {
+    public Long id;
+
     public TestPathRunStatusEnum testStatus;
 
     public String message;
@@ -151,5 +153,13 @@ public class TestPathRun
 
     public void setRunLogs(String runLogs) {
         this.runLogs = runLogs;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

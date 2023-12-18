@@ -38,26 +38,26 @@ public class TestRunService extends ServiceBase {
      * @param runEntity run result
      * @return success or failure
      */
-    public boolean saveTestPathRun(TestPathRun runEntity)
+    public TestPathRun saveTestPathRun(TestPathRun runEntity)
     {
         try {
-            HttpResponse<String> postResponse = Unirest.post(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/model/version/profile/testcollection/testsuite/testpath/run"))
+            HttpResponse<TestPathRun> postResponse = Unirest.post(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/model/version/profile/testcollection/testsuite/testpath/run"))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .body(runEntity)
-                    .asString();
+                    .asObject(TestPathRun.class);
 
             if (postResponse.getStatus() == 200) {
-                return true;
+                return postResponse.getBody();
             } else {
-                m_ErrorMessage = postResponse.getBody();
+                m_ErrorMessage = postResponse.getStatusText();
 
-                return false;
+                return null;
             }
         } catch (Exception e) {
             m_ErrorMessage = e.getMessage();
 
-            return false;
+            return null;
         }
     }
 
@@ -66,26 +66,54 @@ public class TestRunService extends ServiceBase {
      * @param testPathRunStep run result step
      * @return success or failure
      */
-    public boolean saveTestPathRunStep(TestPathRunStep testPathRunStep)
+    public TestPathRunStep saveTestPathRunStep(TestPathRunStep testPathRunStep)
     {
         try {
-            HttpResponse<String> postResponse = Unirest.post(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/model/version/profile/testcollection/testsuite/testpath/run/step"))
+            HttpResponse<TestPathRunStep> postResponse = Unirest.post(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/model/version/profile/testcollection/testsuite/testpath/run/step"))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .body(testPathRunStep)
-                    .asString();
+                    .asObject(TestPathRunStep.class);
 
             if (postResponse.getStatus() == 200) {
-                return true;
+                return postResponse.getBody();
             } else {
-                m_ErrorMessage = postResponse.getBody();
+                m_ErrorMessage = postResponse.getStatusText();
 
-                return false;
+                return null;
             }
         } catch (Exception e) {
             m_ErrorMessage = e.getMessage();
 
-            return false;
+            return null;
+        }
+    }
+
+    /**
+     * Update test path run result
+     * @param runEntity run result
+     * @return success or failure
+     */
+    public TestPathRun updateTestPathRun(TestPathRun runEntity)
+    {
+        try {
+            HttpResponse<TestPathRun> postResponse = Unirest.put(createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/model/version/profile/testcollection/testsuite/testpath/run"))
+                    .header("accept", "application/json")
+                    .header("Content-Type", "application/json")
+                    .body(runEntity)
+                    .asObject(TestPathRun.class);
+
+            if (postResponse.getStatus() == 200) {
+                return postResponse.getBody();
+            } else {
+                m_ErrorMessage = postResponse.getStatusText();
+
+                return null;
+            }
+        } catch (Exception e) {
+            m_ErrorMessage = e.getMessage();
+
+            return null;
         }
     }
 }

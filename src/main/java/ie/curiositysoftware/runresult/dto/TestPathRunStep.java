@@ -2,7 +2,9 @@ package ie.curiositysoftware.runresult.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TestPathRunStep {
     public enum TestPathRunStepType {
@@ -40,11 +42,15 @@ public class TestPathRunStep {
 
     private TestPathRunStepHTTPRequest httpRequest;
 
+    private List<TestPathRunStepAssertion> assertions;
+
     private Long testPathRun;
 
     public TestPathRunStep()
     {
         stepType = TestPathRunStepType.Default;
+
+        assertions = new ArrayList<>();
     }
 
     public void setId(Long id) {
@@ -176,5 +182,13 @@ public class TestPathRunStep {
 
     public Date getRunTimeStamp() {
         return runTimeStamp;
+    }
+
+    public List<TestPathRunStepAssertion> getAssertions() {
+        return assertions;
+    }
+
+    public void setAssertions(List<TestPathRunStepAssertion> assertions) {
+        this.assertions = assertions;
     }
 }
