@@ -191,4 +191,39 @@ public class TestPathRunStep {
     public void setAssertions(List<TestPathRunStepAssertion> assertions) {
         this.assertions = assertions;
     }
+
+    public TestPathRunStepAssertion addFailStep(String type, String message)
+    {
+        TestPathRunStepAssertion assertion = new TestPathRunStepAssertion();
+        assertion.setTestStatus(TestPathRunStatusEnum.Failed);
+        assertion.setType(type);
+        assertion.setMessage(message);
+        assertions.add(assertion);
+
+        setTestStatus(TestPathRunStatusEnum.Failed);
+
+        return assertion;
+    }
+
+    public TestPathRunStepAssertion addPassStep(String type, String message)
+    {
+        TestPathRunStepAssertion assertion = new TestPathRunStepAssertion();
+        assertion.setTestStatus(TestPathRunStatusEnum.Passed);
+        assertion.setType(type);
+        assertion.setMessage(message);
+        assertions.add(assertion);
+
+        return assertion;
+    }
+
+    public List<String> getAssertionString()
+    {
+        List<String> assertionStrings = new ArrayList<>();
+        for (TestPathRunStepAssertion assertion : assertions)
+        {
+            assertionStrings.add(assertion.getTestStatus().toString() + ": " + assertion.getType() + " - " +  assertion.getMessage());
+        }
+
+        return assertionStrings;
+    }
 }
