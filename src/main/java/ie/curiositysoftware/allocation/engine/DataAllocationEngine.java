@@ -8,6 +8,7 @@ import ie.curiositysoftware.jobengine.dto.job.Job;
 import ie.curiositysoftware.jobengine.dto.job.JobState;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.jobengine.services.job.JobSubmissionService;
+import ie.curiositysoftware.utils.ServiceBase;
 import ie.curiositysoftware.utils.UnirestHelper;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -124,7 +125,7 @@ public class DataAllocationEngine {
             lookupDto.setSuite(suite);
             lookupDto.setTestName(testName);
 
-            HttpResponse<DataAllocationResult> postResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/suite/allocated-test/result/value")
+            HttpResponse<DataAllocationResult> postResponse = Unirest.post(ServiceBase.createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/allocation-pool/suite/allocated-test/result/value"))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .queryString("mergeMethod", mergeMethod)
@@ -394,7 +395,7 @@ public class DataAllocationEngine {
     private Job createAllocateJob(String serverName, String poolName, List<AllocationType> allocationTypes)
     {
         try {
-            HttpResponse<Job> postResponse = Unirest.post(m_ConnectionProfile.getAPIUrl() + "/api/apikey/" + m_ConnectionProfile.getAPIKey() + "/allocation-pool/" + poolName + "/resolve/server/" + serverName  + "/execute")
+            HttpResponse<Job> postResponse = Unirest.post(ServiceBase.createURLs(m_ConnectionProfile.getAPIUrl(), "/api/apikey/", m_ConnectionProfile.getAPIKey(), "/allocation-pool/", poolName, "/resolve/server/", serverName, "/execute"))
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
                     .body(allocationTypes)
