@@ -20,6 +20,10 @@ public class PageObjectParameterEntity
 
     private Long pageObject;
 
+    private Integer index;
+
+    private Boolean shadowRequired;
+
     private PageObjectParameterStateEnum parameterState;
 
     public PageObjectParameterEntity()
@@ -105,5 +109,21 @@ public class PageObjectParameterEntity
 
     public void setParameterState(PageObjectParameterStateEnum parameterState) {
         this.parameterState = parameterState;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public Boolean getShadowRequired() {
+        return shadowRequired;
+    }
+
+    public void setShadowRequired(Boolean shadowRequired) {
+        this.shadowRequired = shadowRequired;
     }
 }
