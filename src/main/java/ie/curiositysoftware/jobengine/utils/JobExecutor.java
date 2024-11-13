@@ -45,6 +45,21 @@ public class JobExecutor {
         return waitForJob(r.getId(), outputLocation, maxTime);
     }
 
+    public Job executeAndReturnJob(Job job, String outputLocation, Long maxTime) throws IOException {
+        Job r = jobSubmissionService.addJob(job);
+        if (r == null || r.getId() == null) {
+            errorMessage = "Error submiting job - " + jobSubmissionService.getErrorMessage();
+
+            return null;
+        }
+
+        if (waitForJob(r.getId(), outputLocation, maxTime)) {
+            return jobSubmissionService.getJob(r.getId());
+        }
+
+        return r;
+    }
+
     public Boolean waitForJob(Long jobId, Long maxTime) throws IOException {
         return waitForJob(jobId, null, maxTime);
     }
