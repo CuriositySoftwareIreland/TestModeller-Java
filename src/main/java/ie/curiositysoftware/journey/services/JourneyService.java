@@ -6,9 +6,9 @@ import ie.curiositysoftware.journey.dto.Journey;
 import ie.curiositysoftware.journey.dto.JourneyPool;
 import ie.curiositysoftware.utils.ServiceBase;
 import ie.curiositysoftware.utils.UnirestHelper;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
 
 public class JourneyService  extends ServiceBase {
     ConnectionProfile m_ConnectionProfile;

@@ -5,10 +5,9 @@ import ie.curiositysoftware.modellerstorage.dto.ModellerFile;
 import ie.curiositysoftware.modellerstorage.dto.ModellerFolder;
 import ie.curiositysoftware.utils.ServiceBase;
 import ie.curiositysoftware.utils.UnirestHelper;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
-import org.apache.http.entity.FileEntity;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
 
 public class ModellerFileService  extends ServiceBase {
     ConnectionProfile m_ConnectionProfile;

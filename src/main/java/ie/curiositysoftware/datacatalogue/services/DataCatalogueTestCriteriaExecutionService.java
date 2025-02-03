@@ -12,9 +12,8 @@ import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 
 import ie.curiositysoftware.utils.RestResponsePage;
 import ie.curiositysoftware.utils.ServiceBase;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import org.apache.http.client.AuthCache;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.Unirest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

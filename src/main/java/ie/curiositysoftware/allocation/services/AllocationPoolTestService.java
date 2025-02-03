@@ -4,8 +4,8 @@ import ie.curiositysoftware.allocation.dto.AllocatedTest;
 import ie.curiositysoftware.allocation.dto.AllocationPool;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.utils.ServiceBase;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.Unirest;
 
 public class AllocationPoolTestService extends ServiceBase {
     ConnectionProfile m_ConnectionProfile;

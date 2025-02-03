@@ -5,8 +5,8 @@ import ie.curiositysoftware.runresult.dto.TestPathRunStep;
 import ie.curiositysoftware.utils.ServiceBase;
 import ie.curiositysoftware.utils.UnirestHelper;
 import ie.curiositysoftware.runresult.dto.TestPathRun;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.Unirest;
 
 /**
  * Server for saving run results to test modeller

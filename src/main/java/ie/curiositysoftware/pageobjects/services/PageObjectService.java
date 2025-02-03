@@ -8,10 +8,10 @@ import ie.curiositysoftware.pageobjects.dto.PageObjectHistoryEntity;
 import ie.curiositysoftware.pageobjects.dto.PageObjectParameterEntity;
 import ie.curiositysoftware.utils.ServiceBase;
 import ie.curiositysoftware.utils.UnirestHelper;
-import kong.unirest.HttpResponse;
-import kong.unirest.ObjectMapper;
-import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.ObjectMapper;
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
 
 import java.io.File;
 import java.io.IOException;

@@ -6,11 +6,17 @@ import ie.curiositysoftware.jobengine.dto.job.TestCoverageEnum;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.jobengine.utils.JobExecutor;
 import ie.curiositysoftware.utils.RestService;
-import net.lingala.zip4j.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.joor.Reflect;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,10 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -150,11 +152,37 @@ public class FailureAnalysisService extends RestService {
 
     private List<Class<?>> newTestsFromResultFile(Path resultFile) throws IOException {
         String resultFileName = FilenameUtils.removeExtension(resultFile.getFileName().toString());
-        ZipFile zipFile = new ZipFile(resultFile.toString());
         String destDir = Paths.get(resultFile.getParent().toString(), resultFileName).toString();
-        try {
-            zipFile.extractAll(destDir);
-        } catch (ZipException e) {
+
+        // Create the destination directory if it doesn't exist
+        File destDirectory = new File(destDir);
+        if (!destDirectory.exists()) {
+            destDirectory.mkdirs();
+        }
+
+        List<File> extractedFiles = new ArrayList<>();
+
+        try (ZipFile zipFile = new ZipFile(resultFile.toFile())) {
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                File entryFile = new File(destDir, entry.getName());
+
+                if (entry.isDirectory()) {
+                    entryFile.mkdirs();
+                } else {
+                    File parentDir = entryFile.getParentFile();
+                    if (!parentDir.exists()) {
+                        parentDir.mkdirs();
+                    }
+
+                    try (FileOutputStream fos = new FileOutputStream(entryFile)) {
+                        Files.copy(zipFile.getInputStream(entry), entryFile.toPath());
+                    }
+                    extractedFiles.add(entryFile);
+                }
+            }
+        } catch (IOException e) {
             e.printStackTrace();
             return Collections.emptyList();
         }
@@ -176,6 +204,34 @@ public class FailureAnalysisService extends RestService {
         Matcher matcher = pattern.matcher(fileContent);
         String packagePrefix = matcher.find() ? matcher.group(1) + "." : "";
         return packagePrefix + className;
+    }
+
+
+    public static void extract(String zipFilePath, String destinationDir) throws IOException {
+        File destDir = new File(destinationDir);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFilePath))) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                File entryDestination = new File(destinationDir, entry.getName());
+                if (entry.isDirectory()) {
+                    entryDestination.mkdirs();
+                } else {
+                    entryDestination.getParentFile().mkdirs();
+                    try (FileOutputStream fos = new FileOutputStream(entryDestination)) {
+                        byte[] buffer = new byte[1024];
+                        int len;
+                        while ((len = zis.read(buffer)) > 0) {
+                            fos.write(buffer, 0, len);
+                        }
+                    }
+                }
+                zis.closeEntry();
+            }
+        }
     }
 
     public List<Class<?>> getNewTests() {

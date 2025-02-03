@@ -2,8 +2,8 @@ package ie.curiositysoftware.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import kong.unirest.ObjectMapper;
-import kong.unirest.Unirest;
+import kong.unirest.core.ObjectMapper;
+import kong.unirest.core.Unirest;
 
 import java.io.IOException;
 

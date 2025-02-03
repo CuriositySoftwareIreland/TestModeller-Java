@@ -10,9 +10,9 @@ import ie.curiositysoftware.jobengine.services.job.JobResultService;
 import ie.curiositysoftware.jobengine.services.job.JobSubmissionService;
 import ie.curiositysoftware.pageobjects.dto.PageObjectHistoryEntity;
 import ie.curiositysoftware.utils.ServiceBase;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
 
 public class GPTPromptService  extends ServiceBase {
     private ConnectionProfile m_ConnectionProfile;

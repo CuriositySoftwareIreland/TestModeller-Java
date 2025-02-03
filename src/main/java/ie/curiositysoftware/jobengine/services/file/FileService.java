@@ -3,9 +3,9 @@ package ie.curiositysoftware.jobengine.services.file;
 import ie.curiositysoftware.jobengine.dto.file.UploadFileResponse;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.utils.ServiceBase;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
 
 import java.io.File;
 

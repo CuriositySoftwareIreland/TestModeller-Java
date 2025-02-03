@@ -3,9 +3,9 @@ package ie.curiositysoftware.jobengine.services.job;
 import ie.curiositysoftware.jobengine.dto.job.JobResult;
 import ie.curiositysoftware.jobengine.services.ConnectionProfile;
 import ie.curiositysoftware.utils.ServiceBase;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
 
 public class JobResultService extends ServiceBase {
     private ConnectionProfile m_ConnectionProfile;
